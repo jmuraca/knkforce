@@ -7,6 +7,10 @@ output = 'ST0;\nU0,0;\nLED255,64,0;\n';
 
 delimiter = "z"
 splits = re.split('z|Z', input)
+scale = 0.5;
+xoffset = 0.0;
+yoffset = 2500;
+
 
 for text in splits:
 	if(text!=''):
@@ -22,11 +26,11 @@ for text in splits:
 			direction = "D"
 		
 		if(str(type(item)) == "<class 'svg.path.path.Line'>"):
-			output += parse_line(item, direction)
+			output += parse_line(item, direction, scale, xoffset, yoffset)
 		elif(str(type(item)) == "<class 'svg.path.path.Arc'>"):
-			output += parse_arc(item, direction)
+			output += parse_arc(item, direction, scale, xoffset, yoffset)
 		elif(str(type(item)) == "<class 'svg.path.path.CubicBezier'>"):
-			output += parse_cubic_bezier(item, direction)
+			output += parse_cubic_bezier(item, direction, scale, xoffset, yoffset)
 			
 		counter += 1
 
