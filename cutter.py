@@ -11,50 +11,49 @@ class Cutter:
 	current_y = 0
 	step_size = 100
 	
-	cutting_depth
-	cutting_speed
-	up_speed
-	plunge_speed
-	lift_speed
+	cutting_depth = None
+	cutting_speed = None
+	up_speed = None
+	plunge_speed = None
+	lift_speed = None
 	
-	current_tool
+	current_tool = 0
 	
 	def __init__(self):
+		self.current_x = 0
+		self.current_y = 0
+		self.move(self.current_x, self.current_y)
 		return
 	
-	def move(self, direction):
-		next_x = self.current_x
-		next_y = self.current_y
-		
+	def move_direction(self, direction):
 		if(direction=='N'):
-			next_y = self.current_y + self.step_size;
+			self.move(0, self.step_size)
 		elif(direction=='S'):
-			next_y = self.current_y - self.step_size;
+			self.move(0, (self.step_size*-1))
 		elif(direction=='E'):
-			next_x = self.current_x + self.step_size;
+			self.move(self.step_size, 0)
 		elif(direction=='W'):
-			next_x = self.current_x - self.step_size;
-		
-		self.move(next_x, next_y)
+			self.move((self.step_size*-1), 0)
 
 	def move(self, x, y):
 		next_x = self.current_x + x
 		next_y = self.current_y + y
 		if(next_x<0):
 			next_x = 0
-		elif(next_x>MAX_X):
-			next_x = MAX_X
+		elif(next_x>self.MAX_X):
+			next_x = self.MAX_X
 		
 		if(next_y<0):
 			next_y = 0
-		elif(next_y>MAX_Y):
-			next_y = MAX_Y
+		elif(next_y>self.MAX_Y):
+			next_y = self.MAX_Y
 		
 		command = self.command('U', next_x, next_y)
 		response = self.send(command)
-		if(response == 'OK;'):
+		if(response):
 			self.current_x = next_x;
 			self.current_y = next_y;
+		print(str(self.current_x)+","+str(self.current_y))
 	
 	# build a pen up/down command
 	def command(self, dir, x, y):
@@ -63,10 +62,11 @@ class Cutter:
 	
 	# send a string to the serial port and read the response
 	def send(self, command):
-		ser = serial.Serial ("/dev/ttyAMA0")	# open the serial port
-		ser.baudrate = BAUDRATE
-		ser.write(command)
-		response = ser.read();
-		ser.close()
+		# ser = serial.Serial (0)	# open the serial  "/dev/ttyAMA0"
+		# ser.baudrate = BAUDRATE
+		# ser.write(command)
+		# response = ser.read();
+		# ser.close()
+		response = "OK;"
 		return(response)
 		

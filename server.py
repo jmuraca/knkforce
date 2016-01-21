@@ -2,11 +2,22 @@ import os
 from flask import Flask, request, render_template
 from werkzeug import secure_filename
 
+from cutter import Cutter
+
+knk = Cutter()
+
 UPLOAD_FOLDER = './files'
 ALLOWED_EXTENSIONS = set(['svg'])
 
 app = Flask(__name__, static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/move')
+def move():
+	if(request.method == 'GET'):
+		direction = request.args.get('direction')
+		knk.move_direction(direction)
+	return direction
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS

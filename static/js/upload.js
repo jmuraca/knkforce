@@ -15,5 +15,19 @@ window.onload = function()
             },
         });
     });
-
+	
+	$('.direction').click(function() 
+	{
+		var direction =  $(this).attr('data-direction');
+		$.ajax({
+			type: "GET",
+			url: "/move",
+			data: "direction="+direction,
+			success: function(msg)
+			{
+				console.log(direction);
+			}
+		});
+		return false; // prevent default
+    });
 }
