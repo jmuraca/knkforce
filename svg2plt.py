@@ -15,10 +15,9 @@ class SVG2PLT:
 	x_offset = 0.0
 	y_offset = 0.0
 	
-	# the number of point divisions on an element
-	steps = 30.0
+	divisions = 30.0 	# the number of point divisions on an element
+	overcut = 0.2		# how much to overcut the next shape (TODO: units for now as percentage. could be a percentage of the line, could be mm?)
 	
-
 	def start(self):
 		self.plt += 'ST0;\nU0,0;\nLED255,64,0;\n'
 	
@@ -40,9 +39,14 @@ class SVG2PLT:
 			for line in lines:
 				if(line!=''):
 					line += self.delimiter
-				path = parse_path(line)
+				path = parse_path(line)		# convert the string to a path using svg.path library
 				
-				self.parse_path(path)
+				self.parse_path(path)		# parse the path from SVG to PLT
+				
+				# add overcut to the item
+				if(self.overcut and path.closed==True):
+					self.overcut(path)
+					
 		self.end()
 
 	# parse a path (mM -> zZ)
@@ -58,6 +62,17 @@ class SVG2PLT:
 			if(first):
 				first = False;
 	
+	def overcut(self, path):
+		output = ''
+		item = path[0]
+
+		for i in range(0, int(self.divisions)):
+			loc = i/self.divisions
+			point = item.point(loc)
+			output += self.command('D', point.real, point.imag)
+			
+		return(output)
+	
 	def parse_line(self, item, first):
 		output = ''
 		start = item.start
@@ -69,14 +84,14 @@ class SVG2PLT:
 			output += self.command('D', end.real, end.imag)
 		else:
 			output += self.command('D', end.real, end.imag)
-			
+
 		return output
 		
 	def parse_arc(self, item, first):
 		output = ''
 		
-		for i in range(0, self.steps):
-			loc = i/self.steps
+		for i in range(0, int(self.divisions)):
+			loc = i/self.divisions
 			point = item.point(loc)
 			
 			if(first and i==0):
@@ -89,8 +104,8 @@ class SVG2PLT:
 	def parse_cubic_bezier(self, item, first):
 		output = ''
 		
-		for i in range(0, int(self.steps)):
-			loc = i/self.steps
+		for i in range(0, int(self.divisions)):
+			loc = i/self.divisions
 			point = item.point(loc)
 			
 			if(first and i==0):

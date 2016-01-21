@@ -29,6 +29,14 @@
 				</form>
 			</div>
 		</div>
+		<div id="layer_settings" class="w100pc">
+			<label for="setting_passes" value="Passes">Passes</label>
+			<select id="setting_passes" name="setting_passes">
+			{% for x in range (0, 10) %}
+				<option value="{{x}}">{{x}}</option>
+			{% endfor %}
+			</select>
+		</div>
 		<div id="controls">
 			<a class="direction" href="/move" data-direction="N">North</a>
 			<a class="direction" href="/move" data-direction="S">South</a>

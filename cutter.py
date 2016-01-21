@@ -9,7 +9,10 @@ class Cutter:
 	# The current location of the head on the x, y axis
 	current_x = 0
 	current_y = 0
-	step_size = 100
+	
+	step_size = 100		# the number of positions to move with user control
+	
+	passes = 1		# the number of times to cut the shape
 	
 	cutting_depth = None
 	cutting_speed = None
