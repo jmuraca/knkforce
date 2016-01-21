@@ -1,0 +1,179 @@
+@charset "utf-8";
+/* CSS Document */
+
+* {
+	margin: 0;
+	padding: 0;
+    font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+ol, ul {
+	list-style: none outside none;
+}
+a 
+{
+	text-decoration: none;
+	text-align: center;
+	color: #2CBDE5;
+	cursor: pointer;
+}
+a:hover 
+{
+	color: #0FA0CE;
+}
+
+p
+{
+	display: block;
+	margin-bottom: 18px;
+	word-wrap: break-word;
+	color: rgb(68, 68, 68);
+	font-weight: 400;
+}
+
+div
+{
+    display: block;
+    overflow: hidden;
+}
+
+.wrapper {
+	margin: 0 auto;
+	width: 960px;	
+}
+
+body
+{
+	background-color: #FFF;
+}
+
+.left{float:left;}
+.right{float:right;margin-right:0px !important;}
+.center{margin-left:auto;margin-right:auto;}
+.textcenter{text-align:center;}
+.hidden{display:none;}
+.show{display:block;}
+.round{border-radius: 50% 50% 50% 50%;}
+.clickable{cursor: pointer;}
+
+.w100pc{width:100%;}
+.w80pc{width:80%;}
+.w50pc{width:50%;}
+.w20pc{width:20%;}
+
+
+
+/**********
+ * CONTAINER
+ **********/
+.container 
+{
+	width: 1000px;
+	margin: 0 auto;
+}
+
+/**********
+ * HEADER
+ **********/
+#header 
+{
+	width: 100%;
+	height: 50px;
+    margin: 0 auto;
+	border-bottom: 1px solid rgb(0,153,255);
+}
+
+#header .wrapper
+{
+	width: 960px;
+	margin: 0 auto;	
+}
+
+#container_logo 
+{
+	text-align: center;
+	float: left;
+}
+
+#container_logo  img
+{
+	margin-top: 6px;
+	width: 300px;
+	vertical-align: middle;
+}
+
+
+/**********
+ * NAVIGATION
+ **********/
+#container_navigation, #footer_navigation 
+{
+	float: right;
+	text-align: right;
+	height: 50px;
+}
+
+#container_navigation ul, #footer_navigation ul 
+{
+	font-size: 14px;
+	list-style: none outside none;
+}
+
+#container_navigation ul li
+{
+	text-align: center;
+	white-space: nowrap;
+	float: left;
+    display: block;
+	height: 50px;
+	line-height: 50px;
+	vertical-align: middle;
+}
+
+#container_navigation ul li.current 
+{
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+	font-weight: bold;
+}
+#container_navigation ul li:hover {
+	background-color: #FFFFFF;
+}
+
+#container_navigation ul li:first-of-type {
+    border-left: 0 none;
+	border-radius: 4px 0px 0px 4px;
+}
+#container_navigation ul li:last-of-type 
+{
+    border-right: 0 none;
+	border-radius: 0px 4px 4px 0px;
+	margin-right: 20px;
+}
+
+
+#container_navigation ul li.selected a
+{
+	color: #039;
+}
+
+#container_navigation ul li a 
+{
+	color: #666;
+    text-decoration: none;
+	
+	display: block;
+	padding: 0 15px;
+    letter-spacing: 0.05em;
+}
+
+/**********
+ * PREVIEW PANEL
+ **********/
+#image_preview
+{
+	height: 240px;
+}
+
+#image_preview img
+{
+	height: 100%;
+}
