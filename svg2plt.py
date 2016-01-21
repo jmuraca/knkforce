@@ -27,6 +27,7 @@ class SVG2PLT:
 		
 	# open a file with name 'filename', extract the path elements, and convert them to PLT code
 	def parse_file(self, filename):
+		self.start()
 		#read the svg doc as a DOM to extract the XML <path> element
 		doc = xml.dom.minidom.parse(filename)
 		path_strings = [path.getAttribute('d') for path in doc.getElementsByTagName('path')]
@@ -42,9 +43,8 @@ class SVG2PLT:
 				path = parse_path(line)
 				
 				self.parse_path(path)
+		self.end()
 
-
-		
 	# parse a path (mM -> zZ)
 	def parse_path(self, path):
 		first = True
