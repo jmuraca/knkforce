@@ -2,9 +2,11 @@
 <head>
 	<title>KNK FORCE</title>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/stylesheet.css') }}">
+	<link href="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.css" type="text/css" rel="stylesheet" />
 	
 	<script src="{{ url_for('static',filename='js/upload.js') }}"></script>
 	<script src="{{ url_for('static',filename='js/jquery-1.12.0.min.js') }}"></script>
+	<script src="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	{% include 'header.html' %}
@@ -26,7 +28,6 @@
 					<fieldset>
 						<button id="upload-file-btn" type="button">Upload</button>
 					</fieldset>
-					<a class="cut" href="/cut">Cut!</a>
 				</form>
 			</div>
 		</div>
@@ -39,14 +40,49 @@
 			</select>
 		</div>
 		<div id="controls">
-			<a class="direction" href="/move" data-direction="N">North</a>
-			<a class="direction" href="/move" data-direction="S">South</a>
-			<a class="direction" href="/move" data-direction="E">East</a>
-			<a class="direction" href="/move" data-direction="W">West</a>
+			<a href="#" data-featherlight="#mylightbox">Open element in lightbox</a>
 		</div>
 	</div>
 </div>
 
+
+
+<div id="mylightbox" class="hidden">
+	<a class="direction" href="/move" data-direction="N">North</a>
+	<a class="direction" href="/move" data-direction="S">South</a>
+	<a class="direction" href="/move" data-direction="E">East</a>
+	<a class="direction" href="/move" data-direction="W">West</a>
+	<a class="cut" href="/cut">Cut!</a>
+</div>
+
+<script type="text/javascript" language="javascript">
+$(document).keydown(function(e) 
+{
+	if($('.featherlight').length)
+	{
+		switch(e.which) {
+			case 37: // left
+			$.post( "/cut", { name: "move", direction: "w" } );
+			break;
+
+			case 38: // up
+			$.post( "/cut", { name: "move", direction: "n" } );
+			break;
+
+			case 39: // right
+			$.post( "/cut", { name: "move", direction: "e" } );
+			break;
+
+			case 40: // down
+			$.post( "/cut", { name: "move", direction: "s" } );
+			break;
+
+			default: return; // exit this handler for other keys
+		}
+		e.preventDefault(); // prevent the default action (scroll / move caret)
+	}
+});
+</script>
 
 </body>
 </html>
