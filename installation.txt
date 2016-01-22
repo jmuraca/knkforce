@@ -1,0 +1,11 @@
+# AVAHI - BETTER ADDRESSES
+# install avahi for better usability and not needing to remember the IP address
+# http://elinux.org/RPi_Advanced_Setup
+# I think this may already be installed on raspberry pi's by default
+
+sudo apt-get install avahi-daemon
+sudo /etc/init.d/avahi-daemon restart
+
+# for windows, install bonjour from http://support.apple.com/kb/DL999
+# mac and ios has it installed already!
+

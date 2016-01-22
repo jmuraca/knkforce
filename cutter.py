@@ -30,14 +30,20 @@ class Cutter:
 		return
 	
 	def cut_file(self):
-		svg_file = 'files/pattern.svg'
+		svg_file = 'static/svg/pattern.svg'
 
 		svg2plt = SVG2PLT()
+		svg2plt.x_offset = self.current_x
+		svg2plt.y_offset = self.current_y
 		svg2plt.parse_file(svg_file)
+		
+		OutFile = open('out.hpgl', 'w')
+		OutFile.write(svg2plt.plt)
+		OutFile.close() 
 
 		lines = svg2plt.plt.splitlines()	
 		for line in lines:
-			self.send(line)		
+			self.send(line)
 	
 	def move_direction(self, direction):
 		if(direction=='N'):

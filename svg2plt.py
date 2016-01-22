@@ -37,7 +37,7 @@ class SVG2PLT:
 			lines = re.split('z|Z', path_string)
 
 			for line in lines:
-				if(line!=''):
+				if(len(line)>2):
 					line += self.delimiter
 				path = parse_path(line)		# convert the string to a path using svg.path library
 				
