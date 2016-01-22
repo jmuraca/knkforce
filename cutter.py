@@ -1,4 +1,5 @@
 import serial
+from svg2plt import SVG2PLT
 
 class Cutter:
 	# CONSTANTS
@@ -28,6 +29,16 @@ class Cutter:
 		self.move(self.current_x, self.current_y)
 		return
 	
+	def cut_file(self):
+		svg_file = 'files/pattern.svg'
+
+		svg2plt = SVG2PLT()
+		svg2plt.parse_file(svg_file)
+
+		lines = svg2plt.plt.splitlines()	
+		for line in lines:
+			self.send(line)		
+	
 	def move_direction(self, direction):
 		if(direction=='N'):
 			self.move(0, self.step_size)
@@ -56,7 +67,6 @@ class Cutter:
 		if(response):
 			self.current_x = next_x;
 			self.current_y = next_y;
-		print(str(self.current_x)+","+str(self.current_y))
 	
 	# build a pen up/down command
 	def command(self, dir, x, y):

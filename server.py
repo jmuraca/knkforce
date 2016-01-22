@@ -6,7 +6,7 @@ from cutter import Cutter
 
 knk = Cutter()
 
-UPLOAD_FOLDER = './files'
+UPLOAD_FOLDER = './static/svg/'
 ALLOWED_EXTENSIONS = set(['svg'])
 
 app = Flask(__name__, static_url_path='')
@@ -18,6 +18,12 @@ def move():
 		direction = request.args.get('direction')
 		knk.move_direction(direction)
 	return direction
+	
+@app.route('/cut', methods=['POST'])
+def cut():
+	if(request.method == 'POST'):
+		knk.cut_file()
+	return "cut"
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -27,9 +33,9 @@ def uploadajax():
 	if request.method == 'POST':
 		file = request.files['file']
 		if file and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
+			filename = 'pattern.svg'
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-	return 'hello'
+	return 'uploaded'
 
 @app.route('/')
 def root():
