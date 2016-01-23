@@ -1,11 +1,39 @@
-# AVAHI - BETTER ADDRESSES
-# install avahi for better usability and not needing to remember the IP address
+# starting with a new version of rasbaian jessie
+
+
+#apt-get update for the latest packages
+
+sudo apt-get update
+
+###############
+# AVAHI
+# (should already be installed) avahi for better usability and not needing to remember the IP address
 # http://elinux.org/RPi_Advanced_Setup
 # I think this may already be installed on raspberry pi's by default
+# for windows, install bonjour from http://support.apple.com/kb/DL999
+# mac and ios has it installed already!
 
 sudo apt-get install avahi-daemon
 sudo /etc/init.d/avahi-daemon restart
 
-# for windows, install bonjour from http://support.apple.com/kb/DL999
-# mac and ios has it installed already!
+###############
+# HOSTNAME
+# change the default name from "raspberrypi" to "knk-force"
+# repalce "raspberrypi" to "knk-force" in the hosts and hostname file then restart
 
+sudo nano /etc/hosts
+sudo nano /etc/hostname
+sudo /etc/init.d/hostname.sh
+sudo reboot
+
+###############
+# PYTHON
+# python 2.7.4 already installed in Jessie. Need to install pip
+
+sudo apt-get install python-pip
+
+###############
+# FLASK
+# flask webserver for the application interface
+
+sudo pip install flask
