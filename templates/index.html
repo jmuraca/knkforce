@@ -39,20 +39,22 @@
 			{% endfor %}
 			</select>
 		</div>
-		<div id="controls">
 			<a href="#" data-featherlight="#mylightbox">Open element in lightbox</a>
-		</div>
+		
 	</div>
 </div>
 
 
 
 <div id="mylightbox" class="hidden">
-	<a class="direction" href="/move" data-direction="N">North</a>
-	<a class="direction" href="/move" data-direction="S">South</a>
-	<a class="direction" href="/move" data-direction="E">East</a>
-	<a class="direction" href="/move" data-direction="W">West</a>
-	<a class="cut" href="/cut">Cut!</a>
+	<div id="cut_box">
+		<a class="command" href="/move" data-direction="N">North</a>
+		<a class="command" href="/move" data-direction="N">North</a>
+		<a class="command" href="/move" data-direction="S">South</a>
+		<a class="command" href="/move" data-direction="E">East</a>
+		<a class="command" href="/move" data-direction="W">West</a>
+		<a class="command" href="/cut">Cut!</a>
+	</div>
 </div>
 
 <script type="text/javascript" language="javascript">

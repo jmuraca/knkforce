@@ -12,10 +12,10 @@ ALLOWED_EXTENSIONS = set(['svg'])
 app = Flask(__name__, static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route('/move')
+@app.route('/move', methods=['POST'])
 def move():
-	if(request.method == 'GET'):
-		direction = request.args.get('direction')
+	if(request.method == 'POST'):
+		direction = request.form['direction']
 		knk.move_direction(direction)
 	return direction
 	

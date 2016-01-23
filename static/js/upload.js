@@ -18,31 +18,23 @@ window.onload = function()
         });
     });
 	
-	$('.direction').click(function() 
+	$('.command').click(function() 
 	{
-		var direction =  $(this).attr('data-direction');
-		$.ajax({
-			type: "GET",
-			url: "/move",
-			data: "direction="+direction,
-			success: function(msg)
-			{
-				console.log(direction);
-			}
-		});
-		return false; // prevent default
-    });
-	
-	$('.cut').click(function() 
-	{
+		var url = this.href;
+		var attributes = $(this).data();
 		$.ajax({
 			type: "POST",
-			url: "/cut",
+			url: url,
+			data: attributes,
 			success: function(msg)
 			{
-				console.log("finished");
+				console.log("ok");
 			}
 		});
 		return false; // prevent default
+
+		
+		
+		console.log(attributes);
     });
 }

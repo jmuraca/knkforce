@@ -17,6 +17,18 @@ sudo apt-get install avahi-daemon
 sudo /etc/init.d/avahi-daemon restart
 
 ###############
+# WIFI
+# Change the wifi password and network to your local to be accessible
+
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+# at the bottom of the file add
+network={
+    ssid="The_ESSID_from_earlier"
+    psk="Your_wifi_password"
+}
+
+###############
 # HOSTNAME
 # change the default name from "raspberrypi" to "knk-force"
 # repalce "raspberrypi" to "knk-force" in the hosts and hostname file then restart
@@ -25,6 +37,8 @@ sudo nano /etc/hosts
 sudo nano /etc/hostname
 sudo /etc/init.d/hostname.sh
 sudo reboot
+
+#disconnect the network cable, should be able to run on wifi and SSH to knk-force.local
 
 ###############
 # PYTHON
@@ -37,3 +51,13 @@ sudo apt-get install python-pip
 # flask webserver for the application interface
 
 sudo pip install flask
+
+###############
+# SERIAL
+# add user to access serial
+
+# get the group the port is in (tty?)
+ls -l /dev/ttyAMA0
+sudo adduser pi tty
+sudo stty -F /dev/ttyAMA0 57600
+
