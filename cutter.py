@@ -23,11 +23,16 @@ class Cutter:
 	
 	current_tool = 0
 	
+	serial = None
+	
 	def __init__(self):
+		self.serial = serial.Serial ("/dev/ttyAMA0", self.BAUDRATE, timeout=1)	# open the serial "/dev/ttyAMA0"
 		self.current_x = 0
 		self.current_y = 0
 		self.move(self.current_x, self.current_y)
-		return
+	
+	def __del__(self):	
+		self.serial.close()
 	
 	def cut_file(self):
 		svg_file = 'static/svg/pattern.svg'
@@ -81,11 +86,6 @@ class Cutter:
 	
 	# send a string to the serial port and read the response
 	def send(self, command):
-		# ser = serial.Serial (0)	# open the serial  "/dev/ttyAMA0"
-		# ser.baudrate = BAUDRATE
-		# ser.write(command)
-		# response = ser.read();
-		# ser.close()
-		response = "OK;"
+		response = self.serial.write(command)
 		return(response)
 		
