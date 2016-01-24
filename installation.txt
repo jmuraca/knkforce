@@ -47,14 +47,25 @@ sudo reboot
 sudo apt-get install python-pip
 
 ###############
-# FLASK
+# PIP modules
 # flask webserver for the application interface
+# pyserial for serial comms over /dev/ttyAMA0
+# svg.path for svg parsing
 
 sudo pip install flask
+sudo pip install pyserial
+sudo pip install svg.path
 
 ###############
 # SERIAL
+# disable the console debug serial
 # add user to access serial
+
+sudo raspi-congig
+- "9. Advance options"
+- "A8. Serial"
+- Turn off
+
 
 # get the group the port is in (tty?)
 ls -l /dev/ttyAMA0

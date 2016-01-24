@@ -64,19 +64,19 @@ $(document).keydown(function(e)
 	{
 		switch(e.which) {
 			case 37: // left
-			$.post( "/cut", { name: "move", direction: "w" } );
+			$.post( "/move", { direction: "W" } );
 			break;
 
 			case 38: // up
-			$.post( "/cut", { name: "move", direction: "n" } );
+			$.post( "/move", { direction: "N" } );
 			break;
 
 			case 39: // right
-			$.post( "/cut", { name: "move", direction: "e" } );
+			$.post( "/move", { direction: "E" } );
 			break;
 
 			case 40: // down
-			$.post( "/cut", { name: "move", direction: "s" } );
+			$.post( "/move", { direction: "S" } );
 			break;
 
 			default: return; // exit this handler for other keys
