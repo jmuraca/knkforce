@@ -18,15 +18,23 @@ class SVG2PLT:
 	divisions = 30.0 	# the number of point divisions on an element
 	overcut = 0.2		# how much to overcut the next shape (TODO: units for now as percentage. could be a percentage of the line, could be mm?)
 	
+	# SVG properties that may be useful
+	min_x = 0
+	min_y = 0
+	max_x = 0
+	max_y = 0
+	width = 0
+	height = 0	
+	
 	def start(self):
 		self.plt += 'ST0;\n'
 		self.plt += self.command('U', self.x_offset, self.y_offset)
-		self.plt += 'LED255,64,0;\n''
+		self.plt += 'LED255,64,0;\n'
 	
 	def end(self):
 		self.plt += 'ST0;\n'
 		self.plt += self.command('U', self.x_offset, self.y_offset)
-		self.plt += 'LED128,128,128;\n''
+		self.plt += 'LED128,128,128;\n'
 		
 	# open a file with name 'filename', extract the path elements, and convert them to PLT code
 	def parse_file(self, filename):
@@ -50,19 +58,14 @@ class SVG2PLT:
 				# add overcut to the item
 				if(self.overcut and path.closed==True):
 					self.overcut(path)
-					
+
 		self.end()
 
 	# parse a path (mM -> zZ)
 	def parse_path(self, path):
 		first = True
 		for item in path:
-			if(str(type(item)) == "<class 'svg.path.path.Line'>"):
-				self.plt += self.parse_line(item, first)
-			elif(str(type(item)) == "<class 'svg.path.path.Arc'>"):
-				self.plt += self.parse_arc(item, first)
-			elif(str(type(item)) == "<class 'svg.path.path.CubicBezier'>"):
-				self.plt += self.parse_cubic_bezier(item, first)
+			self.plt += self.parse_item(item, first)
 			if(first):
 				first = False;
 	
@@ -77,21 +80,7 @@ class SVG2PLT:
 			
 		return(output)
 	
-	def parse_line(self, item, first):
-		output = ''
-		start = item.start
-		end = item.end
-		
-		if(first):
-			output += self.command('U', start.real, start.imag)
-			output += self.command('D', start.real, start.imag)
-			output += self.command('D', end.real, end.imag)
-		else:
-			output += self.command('D', end.real, end.imag)
-
-		return output
-		
-	def parse_arc(self, item, first):
+	def parse_item(self, item, first):
 		output = ''
 		
 		for i in range(0, int(self.divisions)):
@@ -102,23 +91,24 @@ class SVG2PLT:
 				output += self.command('U', point.real, point.imag)
 			
 			output += self.command('D', point.real, point.imag)
-			
-		return output
-		
-	def parse_cubic_bezier(self, item, first):
-		output = ''
-		
-		for i in range(0, int(self.divisions)):
-			loc = i/self.divisions
-			point = item.point(loc)
-			
-			if(first and i==0):
-				output += self.command('U', point.real, point.imag)
-			
-			output += self.command('D', point.real, point.imag)
+			self.calc_properties(point.real, point.imag)
 			
 		return output
 		
 	def command(self, dir, x, y):
 		output = dir + str(int(x*self.scale+self.x_offset)) +","+ str(int(y*self.scale+self.y_offset)) +";\n"
 		return(output)
+		
+	def calc_properties(self, x, y):
+		if(x<self.min_x):
+			self.min_x = x
+		if(x>self.max_x):
+			self.max_x = x
+			
+		if(y<self.min_y):
+			self.min_y = y
+		if(y>self.max_y):
+			self.max_y = y
+			
+		self.width = self.max_x - self.min_x
+		self.height = self.max_y - self.min_y
