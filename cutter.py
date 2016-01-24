@@ -27,25 +27,33 @@ class Cutter:
 	
 	def __init__(self):
 		self.serial = serial.Serial ("/dev/ttyAMA0", self.BAUDRATE, timeout=1)	# open the serial "/dev/ttyAMA0"
-		self.current_x = 0
-		self.current_y = 0
-		self.move(self.current_x, self.current_y)
+		self.home()
 	
 	def __del__(self):	
 		self.serial.close()
 	
-	def cut_file(self):
-		svg_file = 'static/svg/pattern.svg'
+	def home():
+		self.current_x = 0
+		self.current_y = 0
+		self.move(self.current_x, self.current_y)
+	
+	def open_svg(self):
+		svg_file = 'static/svg/pattern.svg'		# TODO: break out somewhere instead of hard coded!
 
 		svg2plt = SVG2PLT()
 		svg2plt.x_offset = self.current_x
 		svg2plt.y_offset = self.current_y
 		svg2plt.parse_file(svg_file)
-		
-		OutFile = open('out.hpgl', 'w')
+
+	def save_plt(self):
+		OutFile = open('out.hpgl', 'w')			# TODO: break out somewhere instead of hard coded!
 		OutFile.write(svg2plt.plt)
 		OutFile.close() 
 
+	def cut_file(self):
+		self.open_svg()
+		self.save_plt()
+		
 		lines = svg2plt.plt.splitlines()	
 		for line in lines:
 			self.send(line)
