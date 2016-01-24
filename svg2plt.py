@@ -19,10 +19,14 @@ class SVG2PLT:
 	overcut = 0.2		# how much to overcut the next shape (TODO: units for now as percentage. could be a percentage of the line, could be mm?)
 	
 	def start(self):
-		self.plt += 'ST0;\nU0,0;\nLED255,64,0;\n'
+		self.plt += 'ST0;\n'
+		self.plt += self.command('U', self.x_offset, self.y_offset)
+		self.plt += 'LED255,64,0;\n''
 	
 	def end(self):
-		self.plt += 'ST0;\nU0,0;\nLED128,128,128;\n'
+		self.plt += 'ST0;\n'
+		self.plt += self.command('U', self.x_offset, self.y_offset)
+		self.plt += 'LED128,128,128;\n''
 		
 	# open a file with name 'filename', extract the path elements, and convert them to PLT code
 	def parse_file(self, filename):
