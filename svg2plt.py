@@ -65,7 +65,7 @@ class SVG2PLT:
 				
 				# add overcut to the item
 				if(self.overcut and path.closed==True):
-					self.overcut(path)
+					self.plt += self.parse_overcut(path)
 
 		self.end()
 
@@ -77,16 +77,17 @@ class SVG2PLT:
 			if(first):
 				first = False;
 	
-	def overcut(self, path):
-		output = ''
+	def parse_overcut(self, path):
 		item = path[0]
-
-		for i in range(0, int(self.divisions)):
+		
+		output = ''
+		for i in range(0, int(self.divisions*self.overcut)):
 			loc = i/self.divisions
 			point = item.point(loc)
 			output += self.command('D', point.real, point.imag)
-			
-		return(output)
+
+		return output
+
 	
 	def parse_item(self, item, first):
 		output = ''
