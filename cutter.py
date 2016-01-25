@@ -1,5 +1,6 @@
 import serial
 from svg2plt import SVG2PLT
+import json
 
 class Cutter:
 	# CONSTANTS
@@ -44,6 +45,9 @@ class Cutter:
 		self.svg2plt.x_offset = self.current_x
 		self.svg2plt.y_offset = self.current_y
 		self.svg2plt.parse_file(svg_file)
+		
+		output = {"width":self.svg2plt.display_width,"height":self.svg2plt.display_height,"units":self.svg2plt.display_units}
+		return(json.dumps(output))
 
 	def save_plt(self):
 		OutFile = open('out.hpgl', 'w')			# TODO: break out somewhere instead of hard coded!
@@ -96,4 +100,6 @@ class Cutter:
 	def send(self, command):
 		response = self.serial.write(command)
 		return(response)
+	
+			
 		

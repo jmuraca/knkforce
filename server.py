@@ -28,14 +28,15 @@ def cut():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/uploadajax', methods=['GET', 'POST'])
+@app.route('/uploadajax', methods=['POST'])
 def uploadajax():
 	if request.method == 'POST':
 		file = request.files['file']
 		if file and allowed_file(file.filename):
 			filename = 'pattern.svg'
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-	return 'uploaded'
+			output = knk.open_svg()
+	return output
 
 @app.route('/')
 def root():

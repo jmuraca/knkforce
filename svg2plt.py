@@ -8,7 +8,6 @@ class SVG2PLT:
 	plt = ''
 	
 	delimiter = 'z'		# path delimiter (mM -> zZ)
-	unit = 0.01			# a unit value for the number of pixels per inch
 
 	# factors to transform the SVG as it is read
 	scale = 1.0
@@ -25,6 +24,12 @@ class SVG2PLT:
 	max_y = 0
 	width = 0
 	height = 0	
+	
+	# real world display measurements
+	unit = 0.01			# a unit value for the number of pixels per inch
+	display_width = 0
+	display_height = 0
+	display_units = "in"
 	
 	def start(self):
 		self.plt += 'ST0;\n'
@@ -44,10 +49,21 @@ class SVG2PLT:
 		
 		# determine the ratio of each pixel to real world units
 		svg = doc.getElementsByTagName('svg')[0]
-		height = svg.getAttribute('height').replace("in", "")
-		width = svg.getAttribute('width').replace("in", "")
-		viewbox = svg.getAttribute('viewBox').rsplit(" ")
 		
+		#get the units for this file
+		height = svg.getAttribute('height')
+		width = svg.getAttribute('width')
+		if(height.find("in")):
+			self.display_units = "in"
+		elif(height.find("mm")):
+			self.display_units = "in"
+		elif(height.find("cm")):
+			self.display_units = "cm"
+			
+		height = height.replace(self.display_units, "")
+		width = width.replace(self.display_units, "")
+
+		viewbox = svg.getAttribute('viewBox').rsplit(" ")
 		self.unit = (float(width)/float(viewbox[2]) + float(height)/float(viewbox[3]))/2
 		
 		# extract the path elements
@@ -90,7 +106,6 @@ class SVG2PLT:
 
 		return output
 
-	
 	def parse_item(self, item, first):
 		output = ''
 		
@@ -102,15 +117,16 @@ class SVG2PLT:
 				output += self.command('U', point.real, point.imag)
 			
 			output += self.command('D', point.real, point.imag)
-			self.calc_properties(point.real, point.imag)
+			self.calc_bounding_box(point.real, point.imag)
 			
 		return output
 		
 	def command(self, dir, x, y):
 		output = dir + str(int(x*self.scale+self.x_offset)) +","+ str(int(y*self.scale+self.y_offset)) +";\n"
 		return(output)
-		
-	def calc_properties(self, x, y):
+
+	# calculate the if x, y are the bounding box
+	def calc_bounding_box(self, x, y):
 		if(x<self.min_x):
 			self.min_x = x
 		if(x>self.max_x):
@@ -123,3 +139,6 @@ class SVG2PLT:
 			
 		self.width = self.max_x - self.min_x
 		self.height = self.max_y - self.min_y
+		
+		self.display_width = float("{0:.2f}".format(self.width*self.unit))
+		self.display_height = float("{0:.2f}".format(self.height*self.unit))
