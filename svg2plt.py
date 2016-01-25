@@ -7,8 +7,8 @@ class SVG2PLT:
 	# the plt code to output
 	plt = ''
 	
-	# path delimiter (mM -> zZ)
-	delimiter = 'z'
+	delimiter = 'z'		# path delimiter (mM -> zZ)
+	unit = 0.01			# a unit value for the number of pixels per inch
 
 	# factors to transform the SVG as it is read
 	scale = 1.0
@@ -19,8 +19,8 @@ class SVG2PLT:
 	overcut = 0.2		# how much to overcut the next shape (TODO: units for now as percentage. could be a percentage of the line, could be mm?)
 	
 	# SVG properties that may be useful
-	min_x = 0
-	min_y = 0
+	min_x = 100000
+	min_y = 100000
 	max_x = 0
 	max_y = 0
 	width = 0
@@ -41,6 +41,14 @@ class SVG2PLT:
 		self.start()
 		#read the svg doc as a DOM to extract the XML <path> element
 		doc = xml.dom.minidom.parse(filename)
+		
+		svg = doc.getElementsByTagName('svg')[0]
+		height = svg.getAttribute('height').replace("in", "")
+		width = svg.getAttribute('width').replace("in", "")
+		#viewbox = svg.getAttribute('viewBox')
+		
+		self.unit = (float(height)/212.962 + float(width)/178.819)/2
+		
 		path_strings = [path.getAttribute('d') for path in doc.getElementsByTagName('path')]
 		
 		# iterate over each path that is found
@@ -60,6 +68,9 @@ class SVG2PLT:
 					self.overcut(path)
 
 		self.end()
+		
+		print("width:" + str(self.width*self.unit))
+		print("height:" + str(self.height*self.unit))
 
 	# parse a path (mM -> zZ)
 	def parse_path(self, path):
