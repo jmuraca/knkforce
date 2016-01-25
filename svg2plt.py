@@ -42,13 +42,15 @@ class SVG2PLT:
 		#read the svg doc as a DOM to extract the XML <path> element
 		doc = xml.dom.minidom.parse(filename)
 		
+		# determine the ratio of each pixel to real world units
 		svg = doc.getElementsByTagName('svg')[0]
 		height = svg.getAttribute('height').replace("in", "")
 		width = svg.getAttribute('width').replace("in", "")
-		#viewbox = svg.getAttribute('viewBox')
+		viewbox = svg.getAttribute('viewBox').rsplit(" ")
 		
-		self.unit = (float(height)/212.962 + float(width)/178.819)/2
+		self.unit = (float(width)/float(viewbox[2]) + float(height)/float(viewbox[3]))/2
 		
+		# extract the path elements
 		path_strings = [path.getAttribute('d') for path in doc.getElementsByTagName('path')]
 		
 		# iterate over each path that is found
