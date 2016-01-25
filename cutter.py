@@ -32,7 +32,7 @@ class Cutter:
 	def __del__(self):	
 		self.serial.close()
 	
-	def home():
+	def home(self):
 		self.current_x = 0
 		self.current_y = 0
 		self.move(self.current_x, self.current_y)
@@ -40,33 +40,33 @@ class Cutter:
 	def open_svg(self):
 		svg_file = 'static/svg/pattern.svg'		# TODO: break out somewhere instead of hard coded!
 
-		svg2plt = SVG2PLT()
-		svg2plt.x_offset = self.current_x
-		svg2plt.y_offset = self.current_y
-		svg2plt.parse_file(svg_file)
+		self.svg2plt = SVG2PLT()
+		self.svg2plt.x_offset = self.current_x
+		self.svg2plt.y_offset = self.current_y
+		self.svg2plt.parse_file(svg_file)
 
 	def save_plt(self):
 		OutFile = open('out.hpgl', 'w')			# TODO: break out somewhere instead of hard coded!
-		OutFile.write(svg2plt.plt)
+		OutFile.write(self.svg2plt.plt)
 		OutFile.close() 
 
 	def cut_file(self):
 		self.open_svg()
-		self.save_plt()
+		#self.save_plt()
 		
-		lines = svg2plt.plt.splitlines()	
+		lines = self.svg2plt.plt.splitlines()	
 		for line in lines:
 			self.send(line)
 	
 	def move_direction(self, direction):
 		if(direction=='N'):
-			self.move(0, self.step_size)
-		elif(direction=='S'):
-			self.move(0, (self.step_size*-1))
-		elif(direction=='E'):
-			self.move(self.step_size, 0)
-		elif(direction=='W'):
 			self.move((self.step_size*-1), 0)
+		elif(direction=='S'):
+			self.move(self.step_size, 0)
+		elif(direction=='E'):
+			self.move(0, (self.step_size*-1))
+		elif(direction=='W'):
+			self.move(0, self.step_size)
 
 	def move(self, x, y):
 		next_x = self.current_x + x

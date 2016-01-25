@@ -28,12 +28,12 @@ class SVG2PLT:
 	
 	def start(self):
 		self.plt += 'ST0;\n'
-		self.plt += self.command('U', self.x_offset, self.y_offset)
+		self.plt += "U"+str(int(self.x_offset))+","+str(int(self.y_offset))+";\n"
 		self.plt += 'LED255,64,0;\n'
 	
 	def end(self):
 		self.plt += 'ST0;\n'
-		self.plt += self.command('U', self.x_offset, self.y_offset)
+		self.plt += "U"+str(int(self.x_offset))+","+str(int(self.y_offset))+";\n"
 		self.plt += 'LED128,128,128;\n'
 		
 	# open a file with name 'filename', extract the path elements, and convert them to PLT code
@@ -68,9 +68,6 @@ class SVG2PLT:
 					self.overcut(path)
 
 		self.end()
-		
-		print("width:" + str(self.width*self.unit))
-		print("height:" + str(self.height*self.unit))
 
 	# parse a path (mM -> zZ)
 	def parse_path(self, path):
