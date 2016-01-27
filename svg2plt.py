@@ -56,7 +56,7 @@ class SVG2PLT:
 		if(height.find("in")!=-1):
 			self.display_units = "in"
 		elif(height.find("mm")!=-1):
-			self.display_units = "in"
+			self.display_units = "mm"
 		elif(height.find("cm")!=-1):
 			self.display_units = "cm"
 		elif(height.find("px")!=-1):

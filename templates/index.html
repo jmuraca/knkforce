@@ -3,10 +3,12 @@
 	<title>KNK FORCE</title>
 
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/semantic/semantic.min.css') }}">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/custom.css') }}">
 	
 	<script src="{{ url_for('static',filename='js/cutter.js') }}"></script>
 	<script src="{{ url_for('static',filename='js/jquery-1.12.0.min.js') }}"></script>
 	<script src="{{ url_for('static',filename='js/semantic.min.js') }}"></script>
+
 
 </head>
 <body>
@@ -19,44 +21,95 @@
 			<div class="ui segment">
 				<form class="ui form" id="upload-file" method="post" enctype="multipart/form-data">
 					 <div class="field">
-						<label>Load a File</label>
-						<input class="ui button" name="file" type="file" accept=".svg">
+						<label for="file_input" class="ui icon button"><i class="file icon"></i>Open File</label>
+						<input class="ui button" name="file_input" id="file_input" type="file" accept=".svg" style="display:none">
 					</div>
 					<div class="field">
-						<button class="ui button" id="upload-file-btn" type="button">Upload</button>
-						<button class="ui primary button" id="button_cut" type="button"><i class="cut icon"></i>Cut!</button>
+						<button class="fluid ui primary button" id="button_cut" type="button"><i class="cut icon"></i>Cut!</button>
 					</div>
 				</form>
 			</div>
 			
 			<div class="ui segment">
-				<div class="ui form">
-					<div class="field">
-						<label for="setting_scale" value="Scale">Scale</label>
-						<input type="text" name ="setting_scale"/>
+				<div class="ui grid">
+					<div class="eight wide column">
+						<div class="field">
+							<div class="ui labeled input">
+								<div class="ui label">Scale</div>
+								<input type="text" value="2" id="setting_scale" name="setting_scale"/>
+							</div>
+						</div>
+					</div>
+					
+					<div class="eight wide column">
+						<div class="ui form">
+							<div class="field">
+								<input id="slider_scale" type="range" min="0" max="10" step="0.5" />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			
 			<div class="ui segment">
-				<div class="ui form">
-					<div class="field">
-						<label for="setting_passes" value="Passes">Passes</label>
-						<select id="setting_passes" name="setting_passes">
-							{% for x in range (0, 10) %}
-							<option value="{{x}}">{{x}}</option>
-							{% endfor %}
-						</select>
+				<div class="ui grid">
+				
+					<div class="eight wide column">
+						<div class="ui form">
+							<div class="field">
+								<div class="ui labeled input">
+									<div class="ui label">Passes</div>
+									<input type="text" value="2" id="setting_passes" name="setting_passes"/>
+								</div>
+							</div>
+							<div class="field">
+								<div class="ui labeled input">
+									<div class="ui label">Cutting Depth</div>
+									<input type="text" value="2" id="setting_depth" name="setting_depth"/>
+								</div>
+							</div>
+							<div class="field">
+								<div class="ui labeled input">
+									<div class="ui label">Passes</div>
+									<input type="text" value="2" id="setting_passes" name="setting_passes"/>
+								</div>
+							</div>
+							<div class="field">
+								<div class="ui labeled input">
+									<div class="ui label">Cutting Depth</div>
+									<input type="text" value="2" id="setting_depth" name="setting_depth"/>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="field">
-						<label for="setting_depth" value="Cutting Depth">Cutting Depth</label>
-						<input type="text" name ="setting_depth" />
+					
+					<div class="eight wide column">
+						<div class="ui form">
+							<div class="field">
+								<input id="slider_passes" type="range" min="0" max="10" step="" />
+							</div>
+							<div class="field">
+								<input id="slider_passes" type="range" min="0" max="10" step="" />
+							</div>
+							<div class="field">
+								<input id="slider_passes" type="range" min="0" max="10" step="" />
+							</div>
+							<div class="field">
+								<input id="slider_passes" type="range" min="0" max="10" step="" />
+							</div>
+						</div>
 					</div>
+					
 				</div>
 			</div>
+
+
 		</div>
+		
 		<div class="eight wide column" id="image_preview">
-			<object data="{{ url_for('static',filename='svg/pattern.svg') }}" type="image/svg+xml"></object>
+			<div class="ui segment">
+				<img class="ui fluid image" src="{{ url_for('static',filename='svg/pattern.svg') }}" />
+			</div>
 		</div>
 		
 
@@ -129,8 +182,16 @@ $(document).keydown(function(e)
 		}
 		e.preventDefault(); // prevent the default action (scroll / move caret)
 	}
+
 });
+
+$('#slider_scale').change( function() {
+	$('#setting_scale').val(this.value);
+})
+
 </script>
+
+
 
 </body>
 </html>
