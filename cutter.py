@@ -16,12 +16,37 @@ class Cutter:
 	
 	passes = 1		# the number of times to cut the shape
 	
-	cutting_depth = None
-	cutting_speed = None
-	up_speed = None
-	plunge_speed = None
-	lift_speed = None
+	# Up speed - speed that the machine moves while up
+	# us <1-40> 
+	up_speed = 40
 	
+	# Down speed - speed that the machine moves while down
+	# ds <1-40> 
+	down_speed = 40	
+
+	# Plunge speed - speed at which the tool is lowered
+	# ps <1-40> 	
+	plunge_speed = 40
+	
+	# Lift speed - speed at which the tool is raised
+	# ls <1-40> 	
+	lift_speed = 40
+	
+	# Depth - default tool depth while down
+	# dp <1-670>
+	cutting_depth = 300
+
+	# Up lift - Lift tool by an extra amount while up (for special cases)
+	# ul <0-300>
+	up_lift = 0
+	
+	# Up/down state - Value is 1 if up, 0 if down
+	# returned: up=<0/1>;
+	up = None
+	
+	# Tool - Value is 0 for left tool or 1 for right tool
+	# tool <0/1>
+	# returned: tool=<0/1>;
 	current_tool = 0
 	
 	serial = None
