@@ -53,12 +53,14 @@ class SVG2PLT:
 		#get the units for this file
 		height = svg.getAttribute('height')
 		width = svg.getAttribute('width')
-		if(height.find("in")):
+		if(height.find("in")!=-1):
 			self.display_units = "in"
-		elif(height.find("mm")):
+		elif(height.find("mm")!=-1):
 			self.display_units = "in"
-		elif(height.find("cm")):
+		elif(height.find("cm")!=-1):
 			self.display_units = "cm"
+		elif(height.find("px")!=-1):
+			self.display_units = "px"
 			
 		height = height.replace(self.display_units, "")
 		width = width.replace(self.display_units, "")
@@ -140,5 +142,5 @@ class SVG2PLT:
 		self.width = self.max_x - self.min_x
 		self.height = self.max_y - self.min_y
 		
-		self.display_width = float("{0:.2f}".format(self.width*self.unit))
-		self.display_height = float("{0:.2f}".format(self.height*self.unit))
+		self.display_width = float("{0:.2f}".format(self.width*self.unit*self.scale))
+		self.display_height = float("{0:.2f}".format(self.height*self.unit*self.scale))
