@@ -31,7 +31,7 @@ def allowed_file(filename):
 @app.route('/uploadajax', methods=['POST'])
 def uploadajax():
 	if request.method == 'POST':
-		file = request.files['file']
+		file = request.files['file_input']
 		if file and allowed_file(file.filename):
 			filename = 'pattern.svg'
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
