@@ -7,17 +7,7 @@
 	<script src="{{ url_for('static',filename='js/cutter.js') }}"></script>
 	<script src="{{ url_for('static',filename='js/jquery-1.12.0.min.js') }}"></script>
 	<script src="{{ url_for('static',filename='js/semantic.min.js') }}"></script>
-	
-	<style>
-	svg,
-	img {
-		display: block;
-		outline: 1px solid blue;
-		width: 100%;
-		max-width: 100%;
-		height: 100%;
-	}
-</style>
+
 </head>
 <body>
 	{% include 'header.html' %}
@@ -74,30 +64,21 @@
 
 
 	<div class="ui modal">
-  <i class="close icon"></i>
-  <div class="header">
-    Profile Picture
-  </div>
-  <div class="image content">
-    <div class="ui medium image">
-      <img src="/images/avatar/large/chris.jpg">
-    </div>
-    <div class="description">
-      <div class="ui header">We've auto-chosen a profile image for you.</div>
-      <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
-      <p>Is it okay to use this photo?</p>
-    </div>
-  </div>
-  <div class="actions">
-    <div class="ui black deny button">
-      Nope
-    </div>
-    <div class="ui positive right labeled icon button">
-      Yep, that's me
-      <i class="checkmark icon"></i>
-    </div>
-  </div>
-</div>
+		<i class="close icon"></i>
+		<div class="header">Cut your image!</div>
+		<div class="image content">
+			<div class="ui medium image"><img src="{{ url_for('static',filename='svg/pattern.svg') }}"></div>
+			<div class="description">
+				<div class="ui header">Cutter Settings</div>
+				<p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
+				<p>Is it okay to use this photo?</p>
+			</div>
+		</div>
+		<div class="actions">
+			<div class="ui black deny button">Cancel</div>
+			<div class="ui positive right labeled icon button">OK, let's cut!<i class="checkmark icon"></i></div>
+		</div>
+	</div>
 
 </div>
 
