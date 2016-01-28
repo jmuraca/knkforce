@@ -1,7 +1,6 @@
 import os
 from flask import Flask, request, render_template
 from werkzeug import secure_filename
-
 from cutter import Cutter
 
 knk = Cutter()

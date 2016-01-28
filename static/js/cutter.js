@@ -3,7 +3,6 @@ window.onload = function()
 	var file_input = document.getElementById('file_input');
 	file_input.addEventListener('change', function(e) 
 	{
-				
 		var form_data = new FormData($('#upload-file')[0]);
 		
 		$.ajax({
@@ -18,26 +17,14 @@ window.onload = function()
 			{
 				d = new Date();
 				$('#image_preview object').attr("data", "svg/pattern.svg?"+d.getTime());
+				$('#cut_preview object').attr("data", "svg/pattern.svg?"+d.getTime());
 			},
 		});
 	});
-
-	$('#upload-file-btn').click(function() {
-		var form_data = new FormData($('#upload-file')[0]);
-		$.ajax({
-			type: 'POST',
-			url: '/uploadajax',
-			data: form_data,
-			contentType: false,
-			cache: false,
-			processData: false,
-			async: false,
-			success: function(data) 
-			{
-				d = new Date();
-				$('#image_preview img').attr("src", "svg/pattern.svg?"+d.getTime());
-			},
-		});
+	
+	var object = document.getElementsByTagName('object')[0];
+	object.addEventListener('load', function(){
+		scale_svg();
 	});
 
 	$('.command').click(function() 
@@ -58,11 +45,6 @@ window.onload = function()
 		console.log(attributes);
 	});
 	
-	var object = document.getElementsByTagName('object')[0];
-	object.addEventListener('load', function(){
-		scale_svg();
-	});
-
 	scale_svg();
 }
 
@@ -77,5 +59,5 @@ function scale_svg()
 	svg.setAttribute("height", "100%");
 	svg.setAttribute("width", "100%");
 	svg.height = "100%";
-	svg.height = "100%";
+	svg.height = "100%";		
 }
