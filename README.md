@@ -14,3 +14,9 @@ The backend software is written in Python and is used for both the webserver and
 ###### Frontend
 The front web interface uses a standard HTML/CSS/JS
 - [Semantic UI](http://semantic-ui.com/) is used for the CSS styles to make the site look slick and provide some mobile/tablet compatiblity.
+
+###### Disclaimer
+This software is coded by jmuraca to run on a KNK Force and the source is available at https://github.com/jmuraca/knkforce/
+This software is open for anyone to hack so please help to contribute new features and make it even more awesome! <3
+The Klic-N-Kut name and logo, and the KNK Force name and logo, are trademarks of [AccuGraphic Sales, Inc.](http://knkusa.com/)
+KNK Force is distributed in Australia and New Zealand by [Skat Katz](http://www.skatkatz.com.au)
