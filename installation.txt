@@ -72,3 +72,10 @@ ls -l /dev/ttyAMA0
 sudo adduser pi tty
 sudo stty -F /dev/ttyAMA0 57600
 
+###############
+# GIT
+# git version control for software updates
+
+sudo apt-get install git
+git clone https://github.com/jmuraca/knkforce.git
+
