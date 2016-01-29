@@ -15,9 +15,14 @@ window.onload = function()
 			async: false,
 			success: function(data) 
 			{
+				var json = JSON.parse(data);
+				
 				d = new Date();
 				$('#image_preview object').attr("data", "svg/pattern.svg?"+d.getTime());
 				$('#cut_preview object').attr("data", "svg/pattern.svg?"+d.getTime());
+				
+				$('#image_properties #width').text(json['width']+json['units']);
+				$('#image_properties #height').text(json['height']+json['units']);
 			},
 		});
 	});
@@ -41,8 +46,6 @@ window.onload = function()
 			}
 		});
 		return false; // prevent default
-
-		console.log(attributes);
 	});
 	
 	
@@ -64,8 +67,6 @@ window.onload = function()
 			}
 		});
 		return false; // prevent default
-
-		console.log(attributes);
 	});
 	
 	

@@ -148,7 +148,17 @@
 		
 		<div class="eight wide column" id="image_preview">
 			<div class="ui segment">
-				<object data="{{ url_for('static',filename='svg/pattern.svg') }}" /></object>
+				<div class="ui grid">
+					<div class="eight wide column">
+						<object data="{{ url_for('static',filename='svg/pattern.svg') }}" /></object>
+					</div>
+					<div class="eight wide column">
+						<div id="image_properties">
+							<div class="ui label"><i class="resize horizontal icon"></i>&nbsp;<span id="width">23</span></div>
+							<div class="ui label"><i class="resize vertical icon"></i>&nbsp;<span id="height">23</span></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -157,7 +167,7 @@
 
 	<div class="ui modal">
 		<i class="close icon"></i>
-		<div class="header">Cut your image!</div>
+		<div class="header">Ready to cut!</div>
 		<div class="image content">
 			<div class="ui medium image" id="cut_preview"><object data="{{ url_for('static',filename='svg/pattern.svg') }}" /></object></div>
 			<div class="ui grid">
@@ -165,14 +175,15 @@
 					<table class="ui very basic compact table center aligned">
 						<tbody>
 							<tr>
-								<td colspan="2"><a class="command" href="/move" data-direction="N"><i class="big icon Chevron Circle Up"></i></a></td>
+								<td colspan="4"><a class="command" href="/move" data-direction="N"><i class="big icon Chevron Circle Up"></i></a></td>
 							</tr>
 							<tr>
 								<td><a class="command" href="/move" data-direction="W"><i class="big icon Chevron Circle Left"></i></a></td>
+								<td colspan="2">&nbsp;</td>
 								<td><a class="command" href="/move" data-direction="E"><i class="big icon Chevron Circle Right"></i></a></td>
 							</tr>
 							<tr>
-								<td colspan="2"><a class="command" href="/move" data-direction="S"><i class="big icon Chevron Circle Down"></i></a></td>
+								<td colspan="4"><a class="command" href="/move" data-direction="S"><i class="big icon Chevron Circle Down"></i></a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -180,21 +191,27 @@
 			</div>
 		</div>
 		<div class="actions">
-			<div class="ui black deny button">Cancel</div>
-			<div class="ui positive right labeled icon button">OK, let's cut!<i class="checkmark icon"></i></div>
+			<div class="ui black deny button">Close</div>
+			<div class="ui positive right labeled icon button">OK cut!<i class="cut icon"></i></div>
 		</div>
 	</div>
 
 	
 	</div>
 	
-	
 
 
 
 <script type="text/javascript" language="javascript">
 $('#button_cut').click(function() {
-	$('.ui.modal').modal('show');
+	$('.ui.modal')
+	.modal({
+		onApprove : function() {
+			$.post( "/cut" );
+			return false;
+		}
+	})
+	.modal('show');
 });
 
 $(document).keydown(function(e) 

@@ -15,6 +15,7 @@ class Cutter:
 	step_size = 100		# the number of positions to move with user control
 	
 	passes = 1		# the number of times to cut the shape
+	scale = 1.0
 	
 	# Up speed - speed that the machine moves while up
 	# us <1-40> 
@@ -73,6 +74,7 @@ class Cutter:
 		self.svg2plt = SVG2PLT()
 		self.svg2plt.x_offset = self.current_x
 		self.svg2plt.y_offset = self.current_y
+		self.svg2plt.scale = float(int(self.scale))
 		self.svg2plt.parse_file(svg_file)
 		
 		output = {"width":self.svg2plt.display_width,"height":self.svg2plt.display_height,"units":self.svg2plt.display_units}
