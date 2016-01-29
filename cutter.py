@@ -1,3 +1,4 @@
+import sys
 import serial
 from svg2plt import SVG2PLT
 import json
@@ -74,9 +75,9 @@ class Cutter:
 		self.svg2plt = SVG2PLT()
 		self.svg2plt.x_offset = self.current_x
 		self.svg2plt.y_offset = self.current_y
-		self.svg2plt.scale = float(int(self.scale))
+		self.svg2plt.scale = float(self.scale)
 		self.svg2plt.parse_file(svg_file)
-		
+				
 		output = {"width":self.svg2plt.display_width,"height":self.svg2plt.display_height,"units":self.svg2plt.display_units}
 		return(json.dumps(output))
 
@@ -129,7 +130,7 @@ class Cutter:
 	
 	# send a string to the serial port and read the response
 	def send(self, command):
-		response = self.serial.write(command)
+		response = self.serial.write(command.encode('utf-8'))
 		return(response)
 	
 			

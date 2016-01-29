@@ -26,6 +26,7 @@ class SVG2PLT:
 	height = 0	
 	
 	# real world display measurements
+	cutter_factor = 11.5;		# a value to translate pixels to cutter drawing units
 	unit = 0.01			# a unit value for the number of pixels per inch
 	display_width = 0
 	display_height = 0
@@ -124,7 +125,7 @@ class SVG2PLT:
 		return output
 		
 	def command(self, dir, x, y):
-		output = dir + str(int(x*self.scale+self.x_offset)) +","+ str(int(y*self.scale+self.y_offset)) +";\n"
+		output = dir + str(int((x-90)*self.cutter_factor*self.scale+self.x_offset)) +","+ str(int((y-800)*self.cutter_factor*self.scale+self.y_offset)) +";\n"
 		return(output)
 
 	# calculate the if x, y are the bounding box
@@ -141,6 +142,6 @@ class SVG2PLT:
 			
 		self.width = self.max_x - self.min_x
 		self.height = self.max_y - self.min_y
-		
+
 		self.display_width = float("{0:.2f}".format(self.width*self.unit*self.scale))
 		self.display_height = float("{0:.2f}".format(self.height*self.unit*self.scale))

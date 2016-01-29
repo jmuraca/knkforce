@@ -79,3 +79,5 @@ sudo stty -F /dev/ttyAMA0 57600
 sudo apt-get install git
 git clone https://github.com/jmuraca/knkforce.git
 
+git fetch --all
+git reset --hard origin/master
