@@ -124,7 +124,7 @@ class SVG2PLT:
 		return output
 		
 	def command(self, dir, x, y):
-		output = dir + str(int(x*self.scale+self.x_offset)) +","+ str(int(y*self.scale+self.y_offset)) +";\n"
+		output = dir + str(int(y*self.scale+self.y_offset)) +","+ str(int(x*self.scale+self.x_offset)) +";\n"
 		return(output)
 
 	# calculate the if x, y are the bounding box
