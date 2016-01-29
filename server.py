@@ -23,6 +23,14 @@ def cut():
 	if(request.method == 'POST'):
 		knk.cut_file()
 	return "cut"
+	
+@app.route('/setting', methods=['POST'])
+def setting():
+	if(request.method == 'POST'):
+		setting = request.form['setting']
+		value = request.form['value']
+		knk.change_setting(setting, value)
+	return setting, value
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS

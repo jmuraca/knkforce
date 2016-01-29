@@ -38,7 +38,7 @@
 							<div class="field">
 								<div class="ui labeled input">
 									<div class="ui label">Scale</div>
-									<input type="text" value="1" id="setting_scale" name="setting_scale"/>
+									<input type="text" value="1" id="setting_scale" name="scale" class="setting" />
 								</div>
 							</div>
 						</div>
@@ -46,14 +46,14 @@
 						<div class="eight wide column">
 							<div class="ui form">
 								<div class="field">
-									<input id="slider_scale" type="range" value="1" min="0" max="10" step="0.5" />
+									<input id="slider_scale" type="range" value="1" min="0" max="10" step="0.5" class="setting" name="scale" />
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>				
 
-				<div class="title"><i class="dropdown icon"></i>Cutter Settings</div>
+				<div class="title"><i class="dropdown icon"></i>Cutting Settings</div>
 				<div class="content">			
 					<div class="ui grid">
 					
@@ -62,25 +62,13 @@
 								<div class="field">
 									<div class="ui labeled input">
 										<div class="ui label">Passes</div>
-										<input type="text" value="1" id="setting_passes" name="setting_passes"/>
+										<input type="text" value="1" id="setting_passes" name="passes" class="setting"/>
 									</div>
 								</div>
 								<div class="field">
 									<div class="ui labeled input">
 										<div class="ui label">Cutting Depth</div>
-										<input type="text" value="2" id="setting_depth" name="setting_depth"/>
-									</div>
-								</div>
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Passes</div>
-										<input type="text" value="2" id="setting_passes" name="setting_passes"/>
-									</div>
-								</div>
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Cutting Depth</div>
-										<input type="text" value="2" id="setting_depth" name="setting_depth"/>
+										<input type="text" value="2" id="setting_depth" name="cutting_depth" class="setting"/>
 									</div>
 								</div>
 							</div>
@@ -89,22 +77,72 @@
 						<div class="eight wide column">
 							<div class="ui form">
 								<div class="field">
-									<input id="slider_passes" type="range" value="1" min="0" max="10" step="" />
+									<input id="slider_passes" type="range" value="1" min="0" max="10" step="1" name="passes"/>
 								</div>
 								<div class="field">
-									<input id="slider_passes" type="range" min="0" max="10" step="" />
-								</div>
-								<div class="field">
-									<input id="slider_passes" type="range" min="0" max="10" step="" />
-								</div>
-								<div class="field">
-									<input id="slider_passes" type="range" min="0" max="10" step="" />
+									<input id="slider_passes" type="range" min="0" max="10" step="1" name="cutting_depth" />
 								</div>
 							</div>
 						</div>
 						
 					</div>
 				</div>	
+				
+				
+				<div class="title"><i class="dropdown icon"></i>Speed Settings</div>
+				<div class="content">			
+					<div class="ui grid">
+					
+						<div class="eight wide column">
+							<div class="ui form">
+								<div class="field">
+									<div class="ui labeled input">
+										<div class="ui label">Up</div>
+										<input type="text" value="40" id="setting_up_speed" name="up_speed" class="setting"/>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui labeled input">
+										<div class="ui label">Down</div>
+										<input type="text" value="40" id="setting_down_speed" name="down_speed" class="setting"/>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui labeled input">
+										<div class="ui label">Lift</div>
+										<input type="text" value="40" id="setting_lift_speed" name="lift_speed" class="setting"/>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui labeled input">
+										<div class="ui label">Plunge</div>
+										<input type="text" value="40" id="setting_plunge_speed" name="plunge_speed" class="setting"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="eight wide column">
+							<div class="ui form">
+								<div class="field">
+									<input id="slider_up_speed" type="range" value="40" min="0" max="40" step="1" name="up_speed"/>
+								</div>
+								<div class="field">
+									<input id="slider_down_speed" type="range" value="40" min="0" max="40" step="1" name="down_speed"/>
+								</div>
+								<div class="field">
+									<input id="slider_lift_speed" type="range" value="40" min="0" max="40" step="1" name="lift_speed" />
+								</div>
+								<div class="field">
+									<input id="slider_plunge_speed" type="range" value="40" min="0" max="40" step="1" name="plunge_speed" />
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+
+				
 			</div>	
 		</div>
 		
@@ -191,8 +229,11 @@ $(document).keydown(function(e)
 
 });
 
-$('#slider_scale').change( function() {
-	$('#setting_scale').val(this.value);
+$('input[type=range]').change( function() 
+{
+	var name = $(this).attr("name");
+	var input = $('input[name='+name+']');
+	input.val(this.value);
 })
 
 $('.ui.accordion').accordion();	

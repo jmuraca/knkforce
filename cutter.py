@@ -63,6 +63,10 @@ class Cutter:
 		self.current_y = 0
 		self.move(self.current_x, self.current_y)
 	
+	def change_setting(self, setting, value):
+		setattr(self, setting, value)
+		print(setting+":"+value)
+	
 	def open_svg(self):
 		svg_file = 'static/svg/pattern.svg'		# TODO: break out somewhere instead of hard coded!
 

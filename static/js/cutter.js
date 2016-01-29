@@ -45,6 +45,30 @@ window.onload = function()
 		console.log(attributes);
 	});
 	
+	
+	$('.setting').bind("propertychange change", function(event)
+	{
+		var name = $(this).attr("name")
+		var value = $(this).val()
+		
+		var slider = $('input[type=range][name='+name+']');
+		slider.val(this.value);
+	
+		$.ajax({
+			type: "POST",
+			url: "/setting",
+			data: { setting:name, value:value },
+			success: function(msg)
+			{
+				console.log("ok");
+			}
+		});
+		return false; // prevent default
+
+		console.log(attributes);
+	});
+	
+	
 	scale_svg();
 }
 
