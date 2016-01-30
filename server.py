@@ -30,7 +30,7 @@ def setting():
 		setting = request.form['setting']
 		value = request.form['value']
 		knk.change_setting(setting, value)
-	return setting, value
+	return "ok!"
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS

@@ -16,177 +16,203 @@
 	
 <div class="ui main container">
 
-	<div class="ui grid">
-		<div class="eight wide column">
-			<div class="ui segment">
-				<form class="ui form" id="upload-file" method="post" enctype="multipart/form-data">
+	<div class="two column stackable ui grid">
+		<div class="stretched row">
+			<div class="column">
+				<div class="ui segment">
+					<form class="ui form" id="upload-file" method="post" enctype="multipart/form-data">
+						<div class="field">
+								<label for="file_input" class="ui icon button"><i class="file icon"></i>Open File</label>
+								<input class="ui button" name="file_input" id="file_input" type="file" accept=".svg" style="display:none">
+						</div>
+					</form>
 					<div class="field">
-							<label for="file_input" class="ui icon button"><i class="file icon"></i>Open File</label>
-							<input class="ui button" name="file_input" id="file_input" type="file" accept=".svg" style="display:none">
+						<button class="fluid ui primary button" id="button_cut" type="button"><i class="cut icon"></i>Cut!</button>
 					</div>
-				</form>
-				<div class="field">
-					<button class="fluid ui primary button" id="button_cut" type="button"><i class="cut icon"></i>Cut!</button>
 				</div>
+				
+				<div class="ui styled fluid accordion">
+					<div class="title active"><i class="dropdown icon"></i>Image Settings</div>
+					<div class="content active">
+						<div class="two column ui grid">
+							<div class="column">
+								<div class="ui form">
+									<div class="field">
+										<div class="ui labeled input">
+											<div class="ui label">Scale</div>
+											<input type="text" value="1" id="setting_scale" name="scale" class="setting" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="column">
+								<div class="ui form">
+									<div class="field">
+										<input id="slider_scale" type="range" value="1" min="0" max="10" step="0.5" class="setting" name="scale" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>				
+
+					<div class="title"><i class="dropdown icon"></i>Cutting Settings</div>
+					<div class="content">			
+						<div class="two column ui grid">
+						
+							<div class="column">
+								<div class="ui form">
+									<div class="field">
+										<div class="ui labeled input">
+											<div class="ui label">Passes</div>
+											<input type="text" value="1" id="setting_passes" name="passes" class="setting"/>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui labeled input">
+											<div class="ui label">Cutting Depth</div>
+											<input type="text" value="2" id="setting_depth" name="cutting_depth" class="setting"/>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="column">
+								<div class="ui form">
+									<div class="field">
+										<input id="slider_passes" type="range" value="1" min="0" max="10" step="1" name="passes"/>
+									</div>
+									<div class="field">
+										<input id="slider_passes" type="range" min="0" max="10" step="1" name="cutting_depth" />
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>	
+					
+					
+					<div class="title"><i class="dropdown icon"></i>Speed Settings</div>
+					<div class="content">			
+						<div class="two column ui grid">
+						
+							<div class="column">
+								<div class="ui form">
+									<div class="field">
+										<div class="ui labeled input">
+											<div class="ui label">Up</div>
+											<input type="text" value="40" id="setting_up_speed" name="up_speed" class="setting"/>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui labeled input">
+											<div class="ui label">Down</div>
+											<input type="text" value="40" id="setting_down_speed" name="down_speed" class="setting"/>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui labeled input">
+											<div class="ui label">Lift</div>
+											<input type="text" value="40" id="setting_lift_speed" name="lift_speed" class="setting"/>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui labeled input">
+											<div class="ui label">Plunge</div>
+											<input type="text" value="40" id="setting_plunge_speed" name="plunge_speed" class="setting"/>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="column">
+								<div class="ui form">
+									<div class="field">
+										<input id="slider_up_speed" type="range" value="40" min="0" max="40" step="1" name="up_speed"/>
+									</div>
+									<div class="field">
+										<input id="slider_down_speed" type="range" value="40" min="0" max="40" step="1" name="down_speed"/>
+									</div>
+									<div class="field">
+										<input id="slider_lift_speed" type="range" value="40" min="0" max="40" step="1" name="lift_speed" />
+									</div>
+									<div class="field">
+										<input id="slider_plunge_speed" type="range" value="40" min="0" max="40" step="1" name="plunge_speed" />
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+
+					
+				</div>	
 			</div>
 			
-			<div class="ui styled accordion">
-				<div class="title active"><i class="dropdown icon"></i>Image Settings</div>
-				<div class="content active">
+			<div class="column" id="image_preview">
+				<div class="ui segment">
 					<div class="ui grid">
 						<div class="eight wide column">
-							<div class="field">
-								<div class="ui labeled input">
-									<div class="ui label">Scale</div>
-									<input type="text" value="1" id="setting_scale" name="scale" class="setting" />
-								</div>
-							</div>
+							<object data="{{ url_for('static',filename='svg/pattern.svg') }}" /></object>
 						</div>
-						
 						<div class="eight wide column">
-							<div class="ui form">
-								<div class="field">
-									<input id="slider_scale" type="range" value="1" min="0" max="10" step="0.5" class="setting" name="scale" />
-								</div>
+							<div id="image_properties">
+								<div class="ui label"><i class="resize horizontal icon"></i>&nbsp;<span id="width">23</span></div>
+								<div class="ui label"><i class="resize vertical icon"></i>&nbsp;<span id="height">23</span></div>
 							</div>
-						</div>
-					</div>
-				</div>				
-
-				<div class="title"><i class="dropdown icon"></i>Cutting Settings</div>
-				<div class="content">			
-					<div class="ui grid">
-					
-						<div class="eight wide column">
-							<div class="ui form">
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Passes</div>
-										<input type="text" value="1" id="setting_passes" name="passes" class="setting"/>
-									</div>
-								</div>
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Cutting Depth</div>
-										<input type="text" value="2" id="setting_depth" name="cutting_depth" class="setting"/>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="eight wide column">
-							<div class="ui form">
-								<div class="field">
-									<input id="slider_passes" type="range" value="1" min="0" max="10" step="1" name="passes"/>
-								</div>
-								<div class="field">
-									<input id="slider_passes" type="range" min="0" max="10" step="1" name="cutting_depth" />
-								</div>
-							</div>
-						</div>
-						
-					</div>
-				</div>	
-				
-				
-				<div class="title"><i class="dropdown icon"></i>Speed Settings</div>
-				<div class="content">			
-					<div class="ui grid">
-					
-						<div class="eight wide column">
-							<div class="ui form">
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Up</div>
-										<input type="text" value="40" id="setting_up_speed" name="up_speed" class="setting"/>
-									</div>
-								</div>
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Down</div>
-										<input type="text" value="40" id="setting_down_speed" name="down_speed" class="setting"/>
-									</div>
-								</div>
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Lift</div>
-										<input type="text" value="40" id="setting_lift_speed" name="lift_speed" class="setting"/>
-									</div>
-								</div>
-								<div class="field">
-									<div class="ui labeled input">
-										<div class="ui label">Plunge</div>
-										<input type="text" value="40" id="setting_plunge_speed" name="plunge_speed" class="setting"/>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="eight wide column">
-							<div class="ui form">
-								<div class="field">
-									<input id="slider_up_speed" type="range" value="40" min="0" max="40" step="1" name="up_speed"/>
-								</div>
-								<div class="field">
-									<input id="slider_down_speed" type="range" value="40" min="0" max="40" step="1" name="down_speed"/>
-								</div>
-								<div class="field">
-									<input id="slider_lift_speed" type="range" value="40" min="0" max="40" step="1" name="lift_speed" />
-								</div>
-								<div class="field">
-									<input id="slider_plunge_speed" type="range" value="40" min="0" max="40" step="1" name="plunge_speed" />
-								</div>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-
-				
-			</div>	
-		</div>
-		
-		<div class="eight wide column" id="image_preview">
-			<div class="ui segment">
-				<div class="ui grid">
-					<div class="eight wide column">
-						<object data="{{ url_for('static',filename='svg/pattern.svg') }}" /></object>
-					</div>
-					<div class="eight wide column">
-						<div id="image_properties">
-							<div class="ui label"><i class="resize horizontal icon"></i>&nbsp;<span id="width">23</span></div>
-							<div class="ui label"><i class="resize vertical icon"></i>&nbsp;<span id="height">23</span></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
 	</div>
 
 
 	<div class="ui modal">
 		<i class="close icon"></i>
 		<div class="header">Ready to cut!</div>
-		<div class="image content">
-			<div class="ui medium image" id="cut_preview"><object data="{{ url_for('static',filename='svg/pattern.svg') }}" /></object></div>
+		<div class="content">
 			<div class="ui grid">
 				<div class="four wide column">
-					<table class="ui very basic compact table center aligned">
-						<tbody>
-							<tr>
-								<td colspan="4"><a class="command" href="/move" data-direction="N"><i class="big icon Chevron Circle Up"></i></a></td>
-							</tr>
-							<tr>
-								<td><a class="command" href="/move" data-direction="W"><i class="big icon Chevron Circle Left"></i></a></td>
-								<td colspan="2">&nbsp;</td>
-								<td><a class="command" href="/move" data-direction="E"><i class="big icon Chevron Circle Right"></i></a></td>
-							</tr>
-							<tr>
-								<td colspan="4"><a class="command" href="/move" data-direction="S"><i class="big icon Chevron Circle Down"></i></a></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="ui medium image" id="cut_preview"><object data="{{ url_for('static',filename='svg/pattern.svg') }}" /></object></div>
+				</div>
+				<div class="twelve wide column">
+					
+					<div class="description">
+						<div class="two column ui grid">
+							<div class="row">
+								<div class="column">
+									<table class="ui very basic compact table center aligned">
+										<tbody>
+											<tr>
+												<td colspan="4"><a class="command" href="/move" data-direction="N"><i class="big icon Chevron Circle Up"></i></a></td>
+											</tr>
+											<tr>
+												<td><a class="command" href="/move" data-direction="W"><i class="big icon Chevron Circle Left"></i></a></td>
+												<td colspan="2">&nbsp;</td>
+												<td><a class="command" href="/move" data-direction="E"><i class="big icon Chevron Circle Right"></i></a></td>
+											</tr>
+											<tr>
+												<td colspan="4"><a class="command" href="/move" data-direction="S"><i class="big icon Chevron Circle Down"></i></a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="column">
+									<div class="ui form">
+										<div class="field">
+											<div class="ui labeled input">
+												<div class="ui label">Step Size</div>
+												<input type="text" value="100" id="setting_step_size" name="step_size" class="setting"/>
+											</div>
+										</div>
+										<div class="field">
+											<input id="slider_step_size" type="range" value="100" min="0" max="1000" step="50" name="step_size"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
