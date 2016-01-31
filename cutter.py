@@ -63,7 +63,7 @@ class Cutter:
 	def __init__(self):
 		self.serial = serial.Serial ("/dev/ttyAMA0", self.BAUDRATE, timeout=1)	# open the serial "/dev/ttyAMA0"
 		self.home()
-		self.svg = SVG2PLT()
+		self.svg2plt = SVG2PLT()
 		self.plt = PLT()
 	
 	def __del__(self):	
@@ -82,8 +82,14 @@ class Cutter:
 	
 	# load a file
 	def load_file(self, filename):
-		self.svg.load_file(filename)
-		self.svg.parse()
+		self.svg2plt.load_file(filename)
+		self.svg2plt.parse()
+		
+		self.plt = self.svg2plt.plt
+		
+		
+		
+		
 	
 	def write_file(self):
 		file = open('out.hpgl', 'w')			# TODO: break out somewhere instead of hard coded!

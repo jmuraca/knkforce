@@ -8,6 +8,9 @@ class Coord:
 		self.x = float(x)
 		self.y = float(y)
 	
+	def __str__(self):
+		return(self.output())
+	
 	def output(self):
 		output = self.cmd+str(int(self.x))+","+str(int(self.y))+";\n"
 		return(output)

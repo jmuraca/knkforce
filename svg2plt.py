@@ -14,18 +14,9 @@ class SVG2PLT:
 	delimiter = 'z'		# path delimiter (mM -> zZ)
 	
 	divisions = 30.0 	# the number of point divisions on an element
-	overcut = 0.2		# how much to overcut the next shape (TODO: units for now as percentage. could be a percentage of the line, could be mm?)
-	
-	# SVG properties that may be useful
-	min_x = 100000
-	min_y = 100000
-	max_x = 0
-	max_y = 0
-	width = 0
-	height = 0	
+	overcut = 0.2		# how much to overcut the next shape (TODO: units for now as percentage. could be a percentage of the line, could be mm?)	
 	
 	# real world display measurements
-	cutter_factor = 11.5;		# a value to translate pixels to cutter drawing units
 	unit = 0.01			# a unit value for the number of pixels per inch
 	display_width = 0
 	display_height = 0
@@ -75,9 +66,13 @@ class SVG2PLT:
 					item = parse_path(line) 		# convert the string to a path using svg.path library
 					self.paths.append(item)		
 
+	# load the file
 	def parse(self):
 		for path in self.paths:
 			self.parse_path(path)
+			
+			if(path.closed==True):
+				self.parse_overcut(path)
 		
 	# parse a path 
 	def parse_path(self, path):
@@ -87,6 +82,7 @@ class SVG2PLT:
 			if(first):
 				first = False;
 
+	# parse an item (line, cubic, quadratic bezier)
 	def parse_item(self, item, first):	
 		for i in range(0, int(self.divisions)):
 			loc = i/self.divisions
@@ -97,20 +93,11 @@ class SVG2PLT:
 			
 			self.plt.add_coord('D', point.real, point.imag)
 
-	# calculate the if x, y are the bounding box
-	def calc_bounding_box(self, x, y):
-		if(x<self.min_x):
-			self.min_x = x
-		if(x>self.max_x):
-			self.max_x = x
-			
-		if(y<self.min_y):
-			self.min_y = y
-		if(y>self.max_y):
-			self.max_y = y
-			
-		self.width = self.max_x - self.min_x
-		self.height = self.max_y - self.min_y
-
-		self.display_width = float("{0:.2f}".format(self.width*self.unit*self.scale))
-		self.display_height = float("{0:.2f}".format(self.height*self.unit*self.scale)) 
+	# parse a the first item in a path for overcut (line, cubic, quadratic bezier)
+	def parse_overcut(self, path):
+		item = path[0]
+		
+		for i in range(0, int(self.divisions*self.overcut)):
+			loc = i/self.divisions
+			point = item.point(loc)
+			self.plt.add_coord('D', point.real, point.imag)
