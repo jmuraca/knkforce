@@ -49,7 +49,7 @@ window.onload = function()
 	});
 	
 	
-	$('.setting').bind("propertychange change", function(event)
+	$('.setting').bind("propertychange change input", function(event)
 	{
 		var name = $(this).attr("name")
 		var value = $(this).val()
