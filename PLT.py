@@ -1,7 +1,10 @@
 from Coord import Coord
 
 class PLT:
+	# the lines as a string to output
+	output = None
 	
+	# a list of coord lines
 	list = None
 
 	# factors to transform and translate the shape
@@ -21,28 +24,33 @@ class PLT:
 	def __init__(self):
 		self.list = []
 	
-	def append(self, coord):
-		self.list.append(coord)
+	def build(self):
+		self.output = self.start()
 		
-	def add_coord(self, dir, x, y):
-		coord = Coord(dir, x, y)
-		self.append(coord)
+		for coord in self.list:
+			self.output += coord.output()
+		
+		self.output += self.end()
+		
+		return(self.output)
 		
 	def start(self):
-		self.plt += 'ST0;\n'
-		self.plt += "U"+str(int(self.x_offset))+","+str(int(self.y_offset))+";\n"
-		self.plt += 'LED255,64,0;\n'
+		output = 'ST0;\n'
+		output += "U"+str(int(self.x_offset))+","+str(int(self.y_offset))+";\n"
+		output += 'LED255,64,0;\n'
+		return(output)
 	
 	def end(self):
-		self.plt += 'ST0;\n'
-		self.plt += "U"+str(int(self.x_offset))+","+str(int(self.y_offset))+";\n"
-		self.plt += 'LED128,128,128;\n'
+		output = 'ST0;\n'
+		output += "U"+str(int(self.x_offset))+","+str(int(self.y_offset))+";\n"
+		output += 'LED128,128,128;\n'
+		return(output)
 		
 	def output(self):
-		output = ''
+		string = ''
 		for coord in self.list:
-			output += coord.output()
-		return(output)
+			string += coord.output()
+		return(string)
 	
 	# write the PLT list to a file
 	def write_file(self, filename):
@@ -69,3 +77,11 @@ class PLT:
 		self.height = self.max_y - self.min_y
 		
 		print(self.min_x, self.min_y, self.max_x, self.max_y, self.width, self.height)
+				
+				
+	def add_coord(self, dir, x, y):
+		coord = Coord(dir, x, y)
+		self.append(coord)
+	
+	def append(self, coord):
+		self.list.append(coord)

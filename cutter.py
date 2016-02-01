@@ -2,6 +2,7 @@ import sys
 import serial
 from SVG2PLT import SVG2PLT
 from PLT import PLT
+from Coord import Coord
 import json
 
 class Cutter:
@@ -87,22 +88,13 @@ class Cutter:
 		
 		self.plt = self.svg2plt.plt
 		
+	# send the PLT to the cutter
+	def cut(self):		
+		output = self.plt.build()
+		print(output)
 		
-		
-		
-	
-	def write_file(self):
-		file = open('out.hpgl', 'w')			# TODO: break out somewhere instead of hard coded!
-		file.write(self.svg.plt)
-		file.close() 
-
-	def cut_file(self):
-		self.open_svg()
-		#self.save_plt()
-		
-		lines = self.svg.plt.splitlines()	
-		for line in lines:
-			self.send(line)
+		for line in output:
+			response = self.send(line)
 	
 	def move_direction(self, direction):
 		if(direction=='N'):
@@ -127,16 +119,12 @@ class Cutter:
 		elif(next_y>self.MAX_Y):
 			next_y = self.MAX_Y
 		
-		command = self.command('U', next_x, next_y)
+		command = Coord('U', next_x, next_y)
 		response = self.send(command)
 		if(response):
 			self.current_x = next_x;
 			self.current_y = next_y;
 	
-	# build a pen up/down command
-	def command(self, dir, x, y):
-		output = dir + str(int(x)) +","+ str(int(y)) +";\n"
-		return(output)
 	
 	# send a string to the serial port and read the response
 	def send(self, command):

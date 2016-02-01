@@ -73,6 +73,8 @@ class SVG2PLT:
 			
 			if(path.closed==True):
 				self.parse_overcut(path)
+				
+		self.plt.calc_bounding_box()
 		
 	# parse a path 
 	def parse_path(self, path):
