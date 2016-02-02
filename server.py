@@ -42,7 +42,7 @@ def uploadajax():
 		if file and allowed_file(file.filename):
 			filename = 'pattern.svg'
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			output = knk.load_file()
+			output = knk.load_file(UPLOAD_FOLDER+filename)
 	return output
 
 @app.route('/')
