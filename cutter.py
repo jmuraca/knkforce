@@ -1,9 +1,16 @@
 import sys
 import serial
-from svg2plt import SVG2PLT
+from SVG2PLT import SVG2PLT
+from PLT import PLT
+from Coord import Coord
 import json
 
 class Cutter:
+
+	# PLT and SVG
+	plt = None
+	svg = None
+
 	# CONSTANTS
 	MAX_X = 10000		# maximum distance on the X axis
 	MAX_Y = 10000		# maximum distance on the Y axis
@@ -53,46 +60,41 @@ class Cutter:
 	
 	serial = None
 	
+	# CONSTRUCTOR
 	def __init__(self):
 		self.serial = serial.Serial ("/dev/ttyAMA0", self.BAUDRATE, timeout=1)	# open the serial "/dev/ttyAMA0"
 		self.home()
+		self.svg2plt = SVG2PLT()
+		self.plt = PLT()
 	
 	def __del__(self):	
 		self.serial.close()
 	
+	# home the cutter location
 	def home(self):
 		self.current_x = 0
 		self.current_y = 0
 		self.move(self.current_x, self.current_y)
 	
+	# change a setting variable
 	def change_setting(self, setting, value):
 		setattr(self, setting, float(value))
 		print(setting+":"+value)
 	
-	def open_svg(self):
-		svg_file = 'static/svg/pattern.svg'		# TODO: break out somewhere instead of hard coded!
-
-		self.svg2plt = SVG2PLT()
-		self.svg2plt.x_offset = self.current_x
-		self.svg2plt.y_offset = self.current_y
-		self.svg2plt.scale = float(self.scale)
-		self.svg2plt.parse_file(svg_file)
-				
-		output = {"width":self.svg2plt.display_width,"height":self.svg2plt.display_height,"units":self.svg2plt.display_units}
-		return(json.dumps(output))
-
-	def save_plt(self):
-		OutFile = open('out.hpgl', 'w')			# TODO: break out somewhere instead of hard coded!
-		OutFile.write(self.svg2plt.plt)
-		OutFile.close() 
-
-	def cut_file(self):
-		self.open_svg()
-		#self.save_plt()
+	# load a file
+	def load_file(self, filename):
+		self.svg2plt.load_file(filename)
+		self.svg2plt.parse()
 		
-		lines = self.svg2plt.plt.splitlines()	
-		for line in lines:
-			self.send(line)
+		self.plt = self.svg2plt.plt		# TODO: i'm not completely happy with this idea
+		self.plt.reset_settings()
+		
+	# send the PLT to the cutter
+	def cut(self):		
+		output = self.plt.build()
+		
+		for line in output:
+			response = self.send(line)
 	
 	def move_direction(self, direction):
 		if(direction=='N'):
@@ -105,8 +107,10 @@ class Cutter:
 			self.move(0, self.step_size)
 
 	def move(self, x, y):
+		
 		next_x = self.current_x + x
 		next_y = self.current_y + y
+		
 		if(next_x<0):
 			next_x = 0
 		elif(next_x>self.MAX_X):
@@ -117,16 +121,14 @@ class Cutter:
 		elif(next_y>self.MAX_Y):
 			next_y = self.MAX_Y
 		
-		command = self.command('U', next_x, next_y)
+		command = Coord('U', next_x, next_y)
 		response = self.send(command)
 		if(response):
 			self.current_x = next_x;
 			self.current_y = next_y;
-	
-	# build a pen up/down command
-	def command(self, dir, x, y):
-		output = dir + str(int(x)) +","+ str(int(y)) +";\n"
-		return(output)
+			
+			self.plt.x_offset = self.current_x		# TODO: I'm not sure this is the right place to do this.
+			self.plt.y_offset = self.current_y
 	
 	# send a string to the serial port and read the response
 	def send(self, command):
