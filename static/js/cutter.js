@@ -1,5 +1,48 @@
 window.onload = function() 
 {	
+	$('#button_cut').click(function() {
+		$('.ui.modal')
+		.modal({
+			onApprove : function() {
+				$.post( "/cut" );
+				return false;
+			}
+		})
+		.modal('show');
+	});
+
+	$(document).keydown(function(e) 
+	{
+		if($('.ui.modal').hasClass('active'))
+		{
+			switch(e.which) {
+				case 32: // cut
+				$.post( "/cut" );
+				break;
+				
+				case 37: // left
+				$.post( "/move", { direction: "W" } );
+				break;
+
+				case 38: // up
+				$.post( "/move", { direction: "N" } );
+				break;
+
+				case 39: // right
+				$.post( "/move", { direction: "E" } );
+				break;
+
+				case 40: // down
+				$.post( "/move", { direction: "S" } );
+				break;
+
+				default: return; // exit this handler for other keys
+			}
+			e.preventDefault(); // prevent the default action (scroll / move caret)
+		}
+
+	});
+
 	var file_input = document.getElementById('file_input');
 	file_input.addEventListener('change', function(e) 
 	{
@@ -48,28 +91,37 @@ window.onload = function()
 		return false; // prevent default
 	});
 	
+	$('input[type=range]').bind("propertychange change", function(event)
+	{
+		var name = $(this).attr("name");
+		var input = $('input[name='+name+']');
+		input.val(this.value);
+	})
 	
 	$('.setting').bind("propertychange change input", function(event)
 	{
 		var name = $(this).attr("name")
 		var value = $(this).val()
 		
-		var slider = $('input[type=range][name='+name+']');
-		slider.val(this.value);
-	
-		$.ajax({
-			type: "POST",
-			url: "/setting",
-			data: { setting:name, value:value },
-			success: function(msg)
-			{
-				console.log("ok");
-			}
-		});
+		if($.isNumeric(value))
+		{
+			var slider = $('input[type=range][name='+name+']');
+			slider.val(this.value);
+		
+			$.ajax({
+				type: "POST",
+				url: "/setting",
+				data: { setting:name, value:value },
+				success: function(msg)
+				{
+					console.log("ok");
+				}
+			});
+		}
 		return false; // prevent default
 	});
 	
-	
+	$('.ui.accordion').accordion();	
 	scale_svg();
 }
 

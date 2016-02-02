@@ -1,4 +1,4 @@
-import sys
+import sys, platform
 import serial
 from SVG2PLT import SVG2PLT
 from PLT import PLT
@@ -62,7 +62,8 @@ class Cutter:
 	
 	# CONSTRUCTOR
 	def __init__(self):
-		self.serial = serial.Serial ("/dev/ttyAMA0", self.BAUDRATE, timeout=1)	# open the serial "/dev/ttyAMA0"
+		if(platform.system() == 'Linux'):
+			self.serial = serial.Serial ("/dev/ttyAMA0", self.BAUDRATE, timeout=1)	# open the serial "/dev/ttyAMA0"
 		
 		self.svg2plt = SVG2PLT()
 		self.plt = PLT()
@@ -70,7 +71,8 @@ class Cutter:
 		self.home()
 	
 	def __del__(self):	
-		self.serial.close()
+		if(platform.system() == 'Linux'):
+			self.serial.close()
 	
 	# home the cutter location
 	def home(self):
@@ -84,12 +86,15 @@ class Cutter:
 		print(setting+":"+value)
 	
 	# load a file
-	def load_file(self, filename):
+	def load_file(self, filename='./static/svg/pattern.svg'):
 		self.svg2plt.load_file(filename)
 		self.svg2plt.parse()
 		
 		self.plt = self.svg2plt.plt		# TODO: i'm not completely happy with this idea
 		self.plt.reset_settings()
+		
+		output = {"width":self.svg2plt.display_width,"height":self.svg2plt.display_height,"units":self.svg2plt.display_units}
+		return(json.dumps(output))
 		
 	# send the PLT to the cutter
 	def cut(self):
@@ -135,7 +140,10 @@ class Cutter:
 	
 	# send a string to the serial port and read the response
 	def send(self, command):
-		response = self.serial.write(command.encode('utf-8'))
+		if(platform.system() == 'Linux'):
+			response = self.serial.write(command.encode('utf-8'))
+		else:
+			response = 1
 		return(response)
 	
 			
