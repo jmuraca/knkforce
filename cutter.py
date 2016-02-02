@@ -63,9 +63,11 @@ class Cutter:
 	# CONSTRUCTOR
 	def __init__(self):
 		self.serial = serial.Serial ("/dev/ttyAMA0", self.BAUDRATE, timeout=1)	# open the serial "/dev/ttyAMA0"
-		self.home()
+		
 		self.svg2plt = SVG2PLT()
 		self.plt = PLT()
+		
+		self.home()
 	
 	def __del__(self):	
 		self.serial.close()
@@ -122,7 +124,7 @@ class Cutter:
 			next_y = self.MAX_Y
 		
 		command = Coord('U', next_x, next_y)
-		response = self.send(command)
+		response = self.send(str(command))
 		if(response):
 			self.current_x = next_x;
 			self.current_y = next_y;

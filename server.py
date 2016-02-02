@@ -21,7 +21,7 @@ def move():
 @app.route('/cut', methods=['POST'])
 def cut():
 	if(request.method == 'POST'):
-		knk.cut_file()
+		knk.cut()
 	return "cut"
 	
 @app.route('/setting', methods=['POST'])
@@ -42,7 +42,7 @@ def uploadajax():
 		if file and allowed_file(file.filename):
 			filename = 'pattern.svg'
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			output = knk.open_svg()
+			output = knk.load_file()
 	return output
 
 @app.route('/')
