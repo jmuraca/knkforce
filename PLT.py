@@ -35,10 +35,11 @@ class PLT:
 		self.output = self.start()
 		
 		for coord in self.list:
+			cmd = coord.cmd
 			next_x = coord.x
 			next_y = coord.y
 			
-			point = Coord('U', next_x, next_y)
+			point = Coord(cmd, next_x, next_y)
 			point.x = point.x - self.min_x
 			point.y = self.height-(point.y - self.min_y)
 			
