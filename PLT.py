@@ -6,6 +6,9 @@ class PLT:
 	
 	# a list of coord lines
 	list = None
+	
+	# list of settings for the PLT file
+	settings = None
 
 	# factors to transform and translate the shape
 	scale = 1.0
@@ -23,13 +26,31 @@ class PLT:
 
 	def __init__(self):
 		self.list = []
+		self.settings = {}
+		
+		self.x_offset = 0.0
+		self.y_offset = 0.0
 	
 	def build(self):
 		self.output = self.start()
 		
 		for coord in self.list:
-			self.output += coord.output()
-		
+			next_x = coord.x
+			next_y = coord.y
+			
+			point = Coord('U', next_x, next_y)
+			point.x = point.x - self.min_x
+			point.y = self.height-(point.y - self.min_y)
+			
+			point = point * self.cutter_factor
+			point = point * self.scale
+			
+			point.x = point.x + self.x_offset
+			point.y = point.y + self.y_offset
+			
+			self.output += point.output()
+			del(point)
+			
 		self.output += self.end()
 		
 		return(self.output)
@@ -85,3 +106,12 @@ class PLT:
 	
 	def append(self, coord):
 		self.list.append(coord)
+		
+		
+	def add_setting(self, setting, value):
+		self.settings[setting] = value
+		
+	def reset_settings(self):
+		self.settings.clear()
+
+		

@@ -86,12 +86,12 @@ class Cutter:
 		self.svg2plt.load_file(filename)
 		self.svg2plt.parse()
 		
-		self.plt = self.svg2plt.plt
+		self.plt = self.svg2plt.plt		# TODO: i'm not completely happy with this idea
+		self.plt.reset_settings()
 		
 	# send the PLT to the cutter
 	def cut(self):		
 		output = self.plt.build()
-		print(output)
 		
 		for line in output:
 			response = self.send(line)
@@ -107,8 +107,10 @@ class Cutter:
 			self.move(0, self.step_size)
 
 	def move(self, x, y):
+		
 		next_x = self.current_x + x
 		next_y = self.current_y + y
+		
 		if(next_x<0):
 			next_x = 0
 		elif(next_x>self.MAX_X):
@@ -124,7 +126,9 @@ class Cutter:
 		if(response):
 			self.current_x = next_x;
 			self.current_y = next_y;
-	
+			
+			self.plt.x_offset = self.current_x		# TODO: I'm not sure this is the right place to do this.
+			self.plt.y_offset = self.current_y
 	
 	# send a string to the serial port and read the response
 	def send(self, command):
