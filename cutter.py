@@ -92,8 +92,10 @@ class Cutter:
 		self.plt.reset_settings()
 		
 	# send the PLT to the cutter
-	def cut(self):		
+	def cut(self):
+		self.plt.scale = self.scale
 		output = self.plt.build()
+		print(output)
 		
 		for line in output:
 			response = self.send(line)
@@ -109,7 +111,6 @@ class Cutter:
 			self.move(0, self.step_size)
 
 	def move(self, x, y):
-		
 		next_x = self.current_x + x
 		next_y = self.current_y + y
 		

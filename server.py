@@ -3,10 +3,11 @@ from flask import Flask, request, render_template
 from werkzeug import secure_filename
 from cutter import Cutter
 
-knk = Cutter()
-
 UPLOAD_FOLDER = './static/svg/'
 ALLOWED_EXTENSIONS = set(['svg'])
+
+knk = Cutter()
+knk.load_file(UPLOAD_FOLDER+'pattern.svg')
 
 app = Flask(__name__, static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
