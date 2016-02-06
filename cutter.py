@@ -93,7 +93,7 @@ class Cutter:
 		self.plt = self.svg2plt.plt		# TODO: i'm not completely happy with this idea
 		self.plt.reset_settings()
 		
-		output = {"width":self.svg2plt.display_width,"height":self.svg2plt.display_height,"units":self.svg2plt.display_units}
+		output = self.display_dimensions()
 		return(json.dumps(output))
 		
 	# send the PLT to the cutter
@@ -145,6 +145,13 @@ class Cutter:
 		else:
 			response = 1
 		return(response)
+		
+	def display_dimensions(self):
+		if(self.plt.display_units == "mm"):
+			output = {"width":format(self.plt.display_width*25.4, '.1f'),"height":format(self.plt.display_height*25.4, '.1f'),"units":self.plt.display_units}
+		else:
+			output = {"width":self.plt.display_width,"height":self.plt.display_height,"units":self.plt.display_units}
+		return(json.dumps(output))
 	
 			
 		

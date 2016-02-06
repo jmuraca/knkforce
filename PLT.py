@@ -14,7 +14,7 @@ class PLT:
 	scale = 1.0
 	x_offset = 0.0
 	y_offset = 0.0
-	cutter_factor = 11.5;		# a value to translate pixels to cutter drawing units
+	cutter_factor = 11.3721;		# a value to translate pixels to cutter drawing units
 	
 	# PLT properties 
 	min_x = 100000
@@ -23,6 +23,13 @@ class PLT:
 	max_y = 0
 	width = 0
 	height = 0
+	
+	# real world display measurements
+	unit = 0.01			# a unit value for the number of pixels per inch
+	display_width = 0
+	display_height = 0
+	display_units = "in"
+
 
 	def __init__(self):
 		self.list = []
@@ -98,6 +105,9 @@ class PLT:
 		self.width = self.max_x - self.min_x
 		self.height = self.max_y - self.min_y
 		
+		self.display_width = self.width * self.cutter_factor / 1000
+		self.display_height = self.height * self.cutter_factor / 1000
+		
 		print(self.min_x, self.min_y, self.max_x, self.max_y, self.width, self.height)
 				
 				
@@ -107,7 +117,6 @@ class PLT:
 	
 	def append(self, coord):
 		self.list.append(coord)
-		
 		
 	def add_setting(self, setting, value):
 		self.settings[setting] = value

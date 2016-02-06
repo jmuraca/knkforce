@@ -1,5 +1,6 @@
 window.onload = function() 
 {	
+	// Capture the cut button click and post to the server
 	$('#button_cut').click(function() {
 		$('.ui.modal')
 		.modal({
@@ -11,6 +12,7 @@ window.onload = function()
 		.modal('show');
 	});
 
+	// Capture the keyboard inputs to control the cutter movements
 	$(document).keydown(function(e) 
 	{
 		if($('.ui.modal').hasClass('active'))
@@ -43,6 +45,7 @@ window.onload = function()
 
 	});
 
+	// automatically upload the file and update the display image
 	var file_input = document.getElementById('file_input');
 	file_input.addEventListener('change', function(e) 
 	{
@@ -70,11 +73,13 @@ window.onload = function()
 		});
 	});
 	
+	// Listen the the SVG objects and when they have loaded, scale them to just the view box so that there is no white space
 	var object = document.getElementsByTagName('object')[0];
 	object.addEventListener('load', function(){
 		scale_svg();
 	});
 
+	// controls for the cutter
 	$('.command').click(function() 
 	{
 		var url = this.href;
@@ -91,6 +96,7 @@ window.onload = function()
 		return false; // prevent default
 	});
 	
+	// slider inputs to change settings
 	$('input[type=range]').bind("propertychange change", function(event)
 	{
 		var name = $(this).attr("name");
@@ -98,7 +104,8 @@ window.onload = function()
 		input.val(this.value);
 	})
 	
-	$('.setting').bind("propertychange change input", function(event)
+	// input fields to change settings
+	$('.setting, input[type=range]').bind("propertychange change input", function(event)
 	{
 		var name = $(this).attr("name")
 		var value = $(this).val()
@@ -121,8 +128,22 @@ window.onload = function()
 		return false; // prevent default
 	});
 	
-	$('.ui.accordion').accordion();	
+	// init
 	scale_svg();
+	$('.ui.accordion').accordion();	
+	
+	$.ajax({
+		type: 'POST',
+		url: '/dimensions',
+		success: function(data) 
+		{
+			var json = JSON.parse(data);
+			
+			d = new Date();
+			$('#image_properties #width').text(json['width']+json['units']);
+			$('#image_properties #height').text(json['height']+json['units']);
+		},
+	});
 }
 
 function scale_svg()

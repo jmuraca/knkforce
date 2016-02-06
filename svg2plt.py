@@ -15,13 +15,7 @@ class SVG2PLT:
 	
 	divisions = 30.0 	# the number of point divisions on an element
 	overcut = 0.2		# how much to overcut the next shape (TODO: units for now as percentage. could be a percentage of the line, could be mm?)	
-	
-	# real world display measurements
-	unit = 0.01			# a unit value for the number of pixels per inch
-	display_width = 0
-	display_height = 0
-	display_units = "in"
-	
+		
 	def __init__(self):
 		self.paths = []
 		self.plt = PLT()
@@ -51,6 +45,8 @@ class SVG2PLT:
 
 		viewbox = svg.getAttribute('viewBox').rsplit(" ")
 		self.unit = (float(width)/float(viewbox[2]) + float(height)/float(viewbox[3]))/2
+		
+		self.plt.display_units = self.display_units
 		
 		# extract the path elements
 		path_strings = [path.getAttribute('d') for path in doc.getElementsByTagName('path')]

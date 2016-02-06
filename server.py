@@ -7,10 +7,16 @@ UPLOAD_FOLDER = './static/svg/'
 ALLOWED_EXTENSIONS = set(['svg'])
 
 knk = Cutter()
-knk.load_file()
+dimensions = knk.load_file()
 
 app = Flask(__name__, static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/dimensions', methods=['POST'])
+def dimensions():
+	if(request.method == 'POST'):
+		dimensions = knk.display_dimensions()
+	return dimensions
 
 @app.route('/move', methods=['POST'])
 def move():
@@ -43,8 +49,9 @@ def uploadajax():
 		if file and allowed_file(file.filename):
 			filename = 'pattern.svg'
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			output = knk.load_file(UPLOAD_FOLDER+filename)
-	return output
+			knk.load_file(UPLOAD_FOLDER+filename)
+			dimensions = knk.display_dimensions()
+	return dimensions
 
 @app.route('/')
 def root():
