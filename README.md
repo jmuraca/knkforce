@@ -6,7 +6,7 @@ The KNK Force is a desktop CNC cutter/plotter with a built in Raspberry Pi for t
 The dual head is not simply and up/down driver like a normal cutter but offers an incremental Z-axis motion. It has a rotary bit attachment which allows cutting of plastics or wood material too. The head also has a camera in built (!) which when the drivers get working will allow being able to put in a piece of paper with a shape, capture it on the camera, then automatically cut it.
 
 ###### Interface screenshot
-![KNK Forcepython hack interface](http://skatkatz.com.au/knk_force_python_hack.png)
+![KNK Forcepython hack interface](knk_force_python_hack.png?raw=true "KNK Forcepython hack interface")
 
 ###### Backend
 When I got my cutter I very quickly cracked it open and tried to customise the code but it was written in Ruby and is encrypted :(
