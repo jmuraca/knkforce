@@ -16,6 +16,7 @@ The backend software is written in Python and is used for both the webserver and
 - The webserver for this project is [Flask](http://flask.pocoo.org/), as it is super light weight, easy to use, and allows easy file and serial operations
 - Serial communications to the motor driver board use [pySerial](https://github.com/pyserial/pyserial) on '/dev/ttyAMA0' using a defined set of commands
 - SVG parsing is performed by [svg.path](https://pypi.python.org/pypi/svg.path) (with a bith of extra cleaning up)
+- Github has been chosen as a method of not only backup but also hopefully future automated software deployments to Raspbarian images with a CRON job running in the background checking for tagged versions to pull down.
 
 ###### Frontend
 The front web interface uses a standard HTML/CSS/JS
@@ -25,8 +26,10 @@ The front web interface uses a standard HTML/CSS/JS
 This has been test on Raspbarian Jessie. Download a fresh Raspbarian image and follow the installation instructions in installation.txt file
 
 ###### The future
-I have a hardware background and what I would ultimately like to do with this is turn it into a PCB factory! Using the rotary bit I want to be able to export proto boards from Eagle and cut them on this cutter. Replace the rotary with a drill bit and drill the holes. PCB's are so cheap now that that could be not needed. But the real plus for me would be to add a vacuum pump and do some pick and place of parts PLUS use the camera for visual checks! That's hopefully what I'll be able to do with this software. Lots of work but would be awesome!
+The first priority would be getting this prohect to to a usable and functional cutter/plotter Raspbarian image download for anyone, with automated software deployments based on a CRON job running in the background checking for tagged versions to pull down.
+The documentation, TODO list, and some sort of community forum (or other) would be usueful for coordinating multiple contributors (hopefully it gets to be more than just me!), and possibly a proper name!
 
+I have a hardware background and what I personal wouldlike to do with this is turn it into a PCB factory! Using the rotary bit I want to be able to export proto boards from Eagle and cut them on this cutter. Replace the rotary with a drill bit and drill the holes. PCB's are so cheap now that that could be not needed. But the real plus for me would be to add a vacuum pump and do some pick and place of parts PLUS use the camera for visual checks! That's hopefully what I'll be able to do with this project - and lots of work to get there!
 
 **Disclaimer**
 This project was started by James Muraca to run on a KNK Force and the source is available at [GitHub](https://github.com/jmuraca/knkforce/). I've learnt a lot from this project. This is my first go at coding in Python, using Linux in an embedded way, and my first open sourced project. 
